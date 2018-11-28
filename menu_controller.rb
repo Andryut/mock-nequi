@@ -1,6 +1,6 @@
 class MenuController
 
-  def initialize option_nodes:, back_option: nil
+  def initialize option_nodes:, back_option:
     @option_nodes = option_nodes
     @back_option = back_option
   end

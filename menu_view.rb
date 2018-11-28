@@ -1,6 +1,6 @@
 class MenuView
 
-  def initialize options:, back_option: "exit"
+  def initialize options:, back_option:
     @options = options
     @back_option = back_option
   end
