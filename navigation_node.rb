@@ -1,5 +1,7 @@
 class NavigationNode
 
+  attr_accessor :controller
+
   def initialize controller:, view:
     @controller = controller
     @view = view
