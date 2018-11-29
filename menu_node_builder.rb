@@ -16,8 +16,12 @@ class MenuNodeBuilder
   end
 
   def build
-    view = MenuView.new options: @view_options, back_option: @back_option[:text]
-    controller = MenuController.new option_nodes: @node_options, back_option: @back_option[:node]
+    view = MenuView.new
+    view.options = @view_options
+    view.back_option = @back_option[:text]
+    controller = MenuController.new
+    controller.option_nodes = @node_options
+    controller.back_option = @back_option[:node]
     return NavigationNode.new view: view, controller: controller
   end
 end

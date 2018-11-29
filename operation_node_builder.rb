@@ -3,6 +3,7 @@ class OperationNodeBuilder
   def initialize session:
     @session = session
     @input_views = Array.new
+    @back_node = nil
   end
 
   def add_input view:
@@ -23,7 +24,7 @@ class OperationNodeBuilder
 
   def buid
     view = OperationView.new input_views: @input_views
-    controller = OperationController.new validation_proc: @validation_proc, action_proc: @action_proc, session: session
+    controller = OperationController.new validation_proc: @validation_proc, action_proc: @action_proc, session: @session
     controller.back_node = @back_node
     return NavigationNode.new view: view, controller: controller
   end
