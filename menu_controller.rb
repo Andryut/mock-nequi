@@ -1,9 +1,6 @@
 class MenuController
 
-  def initialize option_nodes:, back_option:
-    @option_nodes = option_nodes
-    @back_option = back_option
-  end
+  attr_accessor :option_nodes, :back_option
 
   def execute inputed_data:
     if inputed_data == 0 then

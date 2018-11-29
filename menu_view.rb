@@ -1,9 +1,6 @@
 class MenuView
 
-  def initialize options:, back_option:
-    @options = options
-    @back_option = back_option
-  end
+  attr_accessor :option_nodes, :back_option
 
   def show
     print_options
