@@ -1,6 +1,6 @@
 class NavigationNode
 
-  attr_accessor :controller
+  attr_accessor :controller, :view
 
   def initialize controller:, view:
     @controller = controller
