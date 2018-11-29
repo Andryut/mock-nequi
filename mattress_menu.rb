@@ -1,0 +1,3 @@
+class MattressMenu < MenuTree
+
+end

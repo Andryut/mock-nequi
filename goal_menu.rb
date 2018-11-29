@@ -1,0 +1,3 @@
+class GoalMenu < MenuTree
+
+end

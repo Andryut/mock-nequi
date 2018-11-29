@@ -1,0 +1,3 @@
+class PocketMenu < MenuTree
+
+end
