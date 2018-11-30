@@ -1,6 +1,6 @@
 class MainMenu < MenuTree
 
-  def build_operation_nodes session:
+  def build_options_nodes session:
     self.build_check_available_balance_node session: session
     self.build_check_total_balance_node session: session
     self.build_deposit_node session: session
@@ -36,25 +36,5 @@ class MainMenu < MenuTree
     @mattress_menu.setup_menu_back text: "Back", node: @menu_node
     @pocket_menu.setup_menu_back text: "Back", node: @menu_node
     @goal_menu.setup_menu_back text: "Back", node: @menu_node
-  end
-
-  protected
-
-  def build_check_available_balance_node session:
-  end
-
-  def build_check_total_balance_node session:
-  end
-
-  def build_deposit_node session:
-  end
-
-  def build_withdrawals_dinero_node session:
-  end
-
-  def build_send_money_node session:
-  end
-
-  def build_check_transactions_node session:
   end
 end

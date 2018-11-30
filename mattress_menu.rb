@@ -1,6 +1,6 @@
 class MattressMenu < MenuTree
 
-  def build_operation_nodes session:
+  def build_options_nodes session:
     self.build_check_available_balance_node session: session
     self.build_deposit_node session: session
     self.build_withdrawals_node session: session
@@ -18,16 +18,5 @@ class MattressMenu < MenuTree
     @check_available_node.controller.back_node = @menu_node
     @deposit_node.controller.back_node = @menu_node
     @withdrawals_node.controller.back_node = @menu_node
-  end
-
-  protected
-
-  def build_check_available_balance_node session:
-  end
-
-  def build_deposit_node session:
-  end
-
-  def build_withdrawals_node session:
   end
 end

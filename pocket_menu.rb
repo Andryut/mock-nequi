@@ -1,6 +1,6 @@
 class PocketMenu < MenuTree
 
-  def build_operation_nodes session:
+  def build_options_nodes session:
     self.build_list_pockets_info_node session: session
     self.build_create_pocket_node session: session
     self.build_delete_pocket_node session: session
@@ -27,25 +27,5 @@ class PocketMenu < MenuTree
     @deposit_node.controller.back_node = @menu_node
     @withdrawals_node.controller.back_node = @menu_node
     @send_node.controller.back_node = @menu_node
-  end
-
-  protected
-
-  def build_list_pockets_info_node session:
-  end
-
-  def build_create_pocket_node session:
-  end
-
-  def build_delete_pocket_node session:
-  end
-
-  def build_deposit_node session:
-  end
-
-  def build_withdrawals_node session:
-  end
-
-  def build_send_money_node session:
   end
 end

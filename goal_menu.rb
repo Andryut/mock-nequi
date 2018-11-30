@@ -1,6 +1,6 @@
 class GoalMenu < MenuTree
 
-  def build_operation_nodes session:
+  def build_options_nodes session:
     self.build_list_goals_info_node session: session
     self.build_create_goal_node session: session
     self.build_close_goal_node session: session
@@ -21,19 +21,5 @@ class GoalMenu < MenuTree
     @create_node.controller.back_node = @menu_node
     @close_node.controller.back_node = @menu_node
     @deposit_node.controller.back_node = @menu_node
-  end
-
-  protected
-
-  def build_list_goals_info_node session:
-  end
-
-  def build_create_goal_node session:
-  end
-
-  def build_close_goal_node session:
-  end
-
-  def build_deposit_node session:
   end
 end
