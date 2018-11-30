@@ -22,6 +22,12 @@ class LoginMenu < MenuTree
   protected
 
   def build_login_node session:
+    sign_in_builder = OperationNodeBuilder.new
+    sign_in_builder.with_validation proc: validation_proc
+    sign_in_builder.with_action proc: action_proc
+    sign_in_builder.add_configured_data key: :session, value: session
+    sign_in_builder.add_input view: input_node
+    @sign_in_node = sign_in_builder.build
   end
 
   def build_register_node session:
