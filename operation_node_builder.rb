@@ -10,8 +10,8 @@ class OperationNodeBuilder
     @input_nodes << node
   end
 
-  def add_configured_data key:, value:
-    @configured_data.merge!({key => value})
+  def add_configured data:
+    @configured_data.merge!(data)
   end
 
   def with_validation proc:
