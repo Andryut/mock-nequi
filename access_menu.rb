@@ -2,8 +2,9 @@ class AccessMenu < MenuTree
 
   def build_options_nodes session:
     @main_menu = MainMenu.new session: session
-    @sign_in_op = AccessOperations::SignIn.new configured_data: {:session => session}
-    @sign_up_op = AccessOperations::SignUp.new configured_data: {:session => session}
+    configured_data = {:session => session, :main_menu => @main_menu}
+    @sign_in_op = AccessOperations::SignInOP.new configured_data: configured_data
+    @sign_up_op = AccessOperations::SignUpOP.new configured_data: configured_data
   end
 
   def build_menu_node
