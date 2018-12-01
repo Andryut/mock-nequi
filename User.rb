@@ -15,7 +15,7 @@ class User < Sequel::Model
       super
     end
   
-    def add_pocket
+    def add_pocket+
       Account.create_pocket(owner: self.id)
     end
   
