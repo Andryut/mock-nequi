@@ -2,14 +2,6 @@ module MattressOperations
 
   class CheckAvailableOP < Operation
 
-    def build_input_nodes
-      input_node_a_builder = new InputNodeBuilder
-      input_node_a_builder.with_petition ""
-      input_node_a_builder.with_validation expression: //
-      input_node_a_builder.with_hash key: :key
-      @input_node_a = input_node_a_builder.build
-    end
-
     def setup_procs
       @validation_proc = Proc.new do |inputed_data, configured_data|
       end
@@ -22,7 +14,6 @@ module MattressOperations
       operation_node_builder.with_validation proc: @validation_proc
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @input_node_a
       @operation_node = operation_node_builder.build
     end
   end
@@ -30,11 +21,11 @@ module MattressOperations
   class DepositOP < Operation
 
     def build_input_nodes
-      input_node_a_builder = new InputNodeBuilder
-      input_node_a_builder.with_petition ""
-      input_node_a_builder.with_validation expression: //
-      input_node_a_builder.with_hash key: :key
-      @input_node_a = input_node_a_builder.build
+      amount_node_builder = new InputNodeBuilder
+      amount_node_builder.with_petition "Enter the amount to be deposited"
+      amount_node_builder.with_validation expression: //
+      amount_node_builder.with_hash key: :amount
+      @amount_node = amount_node_builder.build
     end
 
     def setup_procs
@@ -49,7 +40,7 @@ module MattressOperations
       operation_node_builder.with_validation proc: @validation_proc
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @input_node_a
+      operation_node_builder.add_input node: @amount_node
       @operation_node = operation_node_builder.build
     end
   end
@@ -57,11 +48,11 @@ module MattressOperations
   class WithdrawalOP < Operation
 
     def build_input_nodes
-      input_node_a_builder = new InputNodeBuilder
-      input_node_a_builder.with_petition ""
-      input_node_a_builder.with_validation expression: //
-      input_node_a_builder.with_hash key: :key
-      @input_node_a = input_node_a_builder.build
+      amount_node_builder = new InputNodeBuilder
+      amount_node_builder.with_petition "Enter the amount to be withdrawn"
+      amount_node_builder.with_validation expression: //
+      amount_node_builder.with_hash key: :amount
+      @amount_node = amount_node_builder.build
     end
 
     def setup_procs
@@ -76,7 +67,7 @@ module MattressOperations
       operation_node_builder.with_validation proc: @validation_proc
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @input_node_a
+      operation_node_builder.add_input node: @amount_node
       @operation_node = operation_node_builder.build
     end
   end
