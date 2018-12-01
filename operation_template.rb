@@ -14,7 +14,7 @@ class Operation
   def setup_procs
   end
 
-  def build_operation_node configured_data: configured_data
+  def build_operation_node configured_data:
   end
 
   def setup_back node:

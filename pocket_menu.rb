@@ -6,7 +6,7 @@ class PocketMenu < MenuTree
     @create_op = PocketsOperations::CreateOP.new configured_data: configured_data
     @delete_op = PocketsOperations::DeleteOP.new configured_data: configured_data
     @deposit_op = PocketsOperations::DepositOP.new configured_data: configured_data
-    @withdrawals_op = PocketsOperations::WithdrawalsOP.new configured_data: configured_data
+    @withdrawals_op = PocketsOperations::WithdrawalOP.new configured_data: configured_data
     @send_op = PocketsOperations::SendOP.new configured_data: configured_data
   end
 

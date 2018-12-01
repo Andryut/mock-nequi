@@ -5,7 +5,7 @@ class MainMenu < MenuTree
     @check_available_op = MainOperations::CheckAvailableOP.new configured_data: configured_data
     @check_total_op = MainOperations::CheckTotalOP.new configured_data: configured_data
     @deposit_op = MainOperations::DepositOP.new configured_data: configured_data
-    @withdrawals_op = MainOperations::WithdrawalsOP.new configured_data: configured_data
+    @withdrawals_op = MainOperations::WithdrawalOP.new configured_data: configured_data
     @send_op = MainOperations::SendOP.new configured_data: configured_data
     @check_transactions_op = MainOperations::CheckTransactionsOP.new configured_data: configured_data
     @mattress_menu = MattressMenu.new session: session

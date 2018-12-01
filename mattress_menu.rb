@@ -4,7 +4,7 @@ class MattressMenu < MenuTree
     configured_data = {:session => session}
     @check_available_op = MattressOperations::CheckAvailableOP.new configured_data: configured_data
     @deposit_op = MattressOperations::DepositOP.new configured_data: configured_data
-    @withdrawals_op = MattressOperations::WithdrawalsOP.new configured_data: configured_data
+    @withdrawals_op = MattressOperations::WithdrawalOP.new configured_data: configured_data
   end
 
   def build_menu_node
