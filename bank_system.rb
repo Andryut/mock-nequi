@@ -6,16 +6,16 @@ class BankSystem
   end
 
   def start
-    @navigation_tree.root.play
+    @navigation_tree.play
   end
 
   protected
 
   def configure_navigation_tree
-    @navigation_tree = NavigationTree.new session: @session
+    model_objects = {}
+    @navigation_tree = NavigationTree.new model_objects: model_objects
   end
 
   def configure_model
-    @session = Session.new
   end
 end
