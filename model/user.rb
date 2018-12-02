@@ -17,12 +17,14 @@ class User < Sequel::Model
       sha2 = Digest::SHA2.new
       sha2.update password + user.salt.to_s
 
-      raise 'The password entered is incorrect.' if user.password != sha2.hexdigest
+      raise 'The password entered is incorrect.' unless user.password == sha2.hexdigest
 
       return user
     end
 
     def before_create
+      raise 'Mail is not available.' unless User[email: self.email].nil?
+
       Random.new_seed
       salt_generator = Random.new
 
