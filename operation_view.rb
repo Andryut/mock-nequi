@@ -5,10 +5,10 @@ class OperationView
   end
 
   def show
-    input_data = Hash.new
+    filled_form = Hash.new
     input_views.each do |input_view|
-      input_data.merge!(input_view.play)
+      filled_form.merge!(input_view.show)
     end
-    return input_data
+    return filled_form
   end
 end

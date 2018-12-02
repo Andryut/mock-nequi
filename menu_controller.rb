@@ -2,11 +2,11 @@ class MenuController
 
   attr_accessor :option_nodes, :back_option
 
-  def execute inputed_data:
-    if inputed_data == 0 then
+  def execute selected_option:
+    if selected_option == 0 then
       go_back
     else
-      go_forward option: operation_data
+      go_forward option: selected_option
     end
   end
 

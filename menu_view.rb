@@ -17,12 +17,12 @@ class MenuView
   end
 
   def get_selection
-    input = gets.chomp
-    if input < 0 or input > @options.length then
-      puts "#{input} is not an option."
+    selected_option = gets.chomp
+    if selected_option < 0 or selected_option > @options.length then
+      puts "#{selected_option} is not an option."
       self.show
     else
-      return input
+      return selected_option
     end
   end
 end

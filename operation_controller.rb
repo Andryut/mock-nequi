@@ -1,16 +1,13 @@
 class OperationController
 
-  attr_writer :back_node, :configured_data
+  attr_writer :back_node, :model
 
-  def initialize validation_proc:, action_proc:
-    @validation = validation_proc
+  def initialize action_proc:
     @action = action_proc
   end
 
-  def execute inputed_data:
-    if @validation.call inputed_data, @configured_data then
-      @action.call inputed_data, @configured_data
-    end
+  def execute filled_form:
+    @action.call filled_form, @model
     @back_node.play
   end
 end
