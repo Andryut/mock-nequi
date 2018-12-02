@@ -5,8 +5,9 @@ model_files.each do |file|
     begin
         load file 
     rescue
-        models.push(file)
+        model_files.push(file)
     end
 end
 
-puts DB 
+puts User.create(name:'name', email: 'email4', password: '123456').values
+puts GeneralAccount.first.owner.values

@@ -1,3 +1,5 @@
+require 'digest'
+
 class User < Sequel::Model
 
     one_to_one :general_account, key: :owner, read_only: true
@@ -13,10 +15,23 @@ class User < Sequel::Model
       return nil if user.password != password
       return user
     end
-  
+
+    def before_create
+      Random.new_seed
+      generator = Random.new
+
+      self.salt = generator.rand(1000000)
+      
+      sha2 = Digest::SHA2.new
+      sha2.update self.password + self.salt.to_s
+      self.password = sha2.hexdigest
+
+      super
+    end
+
     def after_create
-      Account.create_general(owner:self.id)
-      Coffer.create_mattress(owner:self.id, name: self.name + ' - account')
+      Account.create_general(owner:self.id, name: self.name + ' - general account')
+      Coffer.create_mattress(owner:self.id, name: self.name + ' - mattress')
       super
     end
     
@@ -53,5 +68,7 @@ class User < Sequel::Model
 
       goalCoffer = nil
     end
+
+
 
 end
