@@ -1,4 +1,4 @@
-class Pocket < Sequel::Model(DB[:accounts].where(type:Account::pocket).where(active: true));
+class PocketAccount < Sequel::Model(DB[:accounts].where(type:Account::pocket_type).where(active: true));
 
   many_to_one :owner, class: :User
   one_to_many :operation_transactions, key: :transmitter_account, read_only: true

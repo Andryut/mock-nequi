@@ -1,19 +1,19 @@
 class Account < Sequel::Model
 
-    def self.general_account
-      'general_account'
+    def self.general_type
+      'general'
     end
 
-    def self.pocket 
+    def self.pocket_type
       'pocket'
     end
 
-    def self.create_general_account owner:
-      self.create(owner:owner, type: general_account)
+    def self.create_general owner:
+      self.create(owner:owner, type: general_type)
     end
 
     def self.create_pocket owner:
-      self.create(owner:owner, type: pocket)
+      self.create(owner:owner, type: pocket_type)
     end
-    
+
 end
