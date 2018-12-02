@@ -10,17 +10,23 @@ class User < Sequel::Model
 
   
     def self.login email:, password:
+
       user = User.where(email: email).first
-      return nil if user.nil?
-      return nil if user.password != password
+      raise 'The email entered is incorrect.' if user.nil?
+
+      sha2 = Digest::SHA2.new
+      sha2.update password + user.salt.to_s
+
+      raise 'The password entered is incorrect.' if user.password != sha2.hexdigest
+
       return user
     end
 
     def before_create
       Random.new_seed
-      generator = Random.new
+      salt_generator = Random.new
 
-      self.salt = generator.rand(1000000)
+      self.salt = salt_generator.rand(1000000)
       
       sha2 = Digest::SHA2.new
       sha2.update self.password + self.salt.to_s
@@ -30,7 +36,7 @@ class User < Sequel::Model
     end
 
     def after_create
-      Account.create_general(owner:self.id, name: self.name + ' - general account')
+      Account.create_general(owner:self.id, name: self.name + ' - general')
       Coffer.create_mattress(owner:self.id, name: self.name + ' - mattress')
       super
     end
@@ -69,6 +75,6 @@ class User < Sequel::Model
       goalCoffer = nil
     end
 
-
+    private
 
 end
