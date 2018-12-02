@@ -23,7 +23,7 @@ class OperationNodeBuilder
     @back_node = node
   end
 
-  def buid
+  def build
     view = OperationView.new input_views: @input_views
     controller = OperationController.new action_proc: @action_proc do
       self.model_objects = @model_objects
