@@ -8,12 +8,11 @@ class GoalMenu < MenuTree
   end
 
   def build_menu_node
-    menu_builder = MenuNodeBuilder.new do
-      add_option text: "List all the goals", node: @list_op.operation_node
-      add_option text: "Create a goal", node: @create_op.operation_node
-      add_option text: "Close a goal", node: @close_op.operation_node
-      add_option text: "Deposit money on a goal", node: @deposit_op.operation_node
-    end
+    menu_builder = MenuNodeBuilder.new
+    menu_builder.add_option text: "List all the goals", node: @list_op.operation_node
+    menu_builder.add_option text: "Create a goal", node: @create_op.operation_node
+    menu_builder.add_option text: "Close a goal", node: @close_op.operation_node
+    menu_builder.add_option text: "Deposit money on a goal", node: @deposit_op.operation_node
     @menu_node = menu_builder.build
   end
 

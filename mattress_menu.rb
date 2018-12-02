@@ -7,11 +7,10 @@ class MattressMenu < MenuTree
   end
 
   def build_menu_node
-    menu_builder = MenuNodeBuilder.new do
-      add_option text: "Check the available money", node: @check_available_op.operation_node
-      add_option text: "Deposit money", node: @deposit_op.operation_node
-      add_option text: "Withdrawal money", node: @withdrawals_op.operation_node
-    end
+    menu_builder = MenuNodeBuilder.new
+    menu_builder.add_option text: "Check the available money", node: @check_available_op.operation_node
+    menu_builder.add_option text: "Deposit money", node: @deposit_op.operation_node
+    menu_builder.add_option text: "Withdrawal money", node: @withdrawals_op.operation_node
     @menu_node = menu_builder.build
   end
 

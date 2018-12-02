@@ -13,17 +13,16 @@ class MainMenu < MenuTree
   end
 
   def build_menu_node
-    menu_builder = MenuNodeBuilder.new do
-      add_option text: "Check the available money", node: @check_available_op.operation_node
-      add_option text: "Check the total money", node: @check_total_op.operation_node
-      add_option text: "Deposit money", node: @deposit_op.operation_node
-      add_option text: "Withdrawal money", node: @withdrawals_op.operation_node
-      add_option text: "Send money to a friend", node: @send_op.operation_node
-      add_option text: "Check the last n'th transactions", node: @check_transactions_op.operation_node
-      add_option text: "Enter in the mattress menu", node: @mattress_menu.menu_node
-      add_option text: "Enter in the pocket menu", node: @pocket_menu.menu_node
-      add_option text: "Enter in the goal menu", node: @goal_menu.menu_node
-    end
+    menu_builder = MenuNodeBuilder.new
+    menu_builder.add_option text: "Check the available money", node: @check_available_op.operation_node
+    menu_builder.add_option text: "Check the total money", node: @check_total_op.operation_node
+    menu_builder.add_option text: "Deposit money", node: @deposit_op.operation_node
+    menu_builder.add_option text: "Withdrawal money", node: @withdrawals_op.operation_node
+    menu_builder.add_option text: "Send money to a friend", node: @send_op.operation_node
+    menu_builder.add_option text: "Check the last n'th transactions", node: @check_transactions_op.operation_node
+    menu_builder.add_option text: "Enter in the mattress menu", node: @mattress_menu.menu_node
+    menu_builder.add_option text: "Enter in the pocket menu", node: @pocket_menu.menu_node
+    menu_builder.add_option text: "Enter in the goal menu", node: @goal_menu.menu_node
     @menu_node = menu_builder.build
   end
 

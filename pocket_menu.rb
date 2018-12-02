@@ -10,14 +10,13 @@ class PocketMenu < MenuTree
   end
 
   def build_menu_node
-    menu_builder = MenuNodeBuilder.new do
-      menu_builder.add_option text: "List all the pockets", node: @list_op.operation_node
-      menu_builder.add_option text: "Create a pocket", node: @create_op.operation_node
-      menu_builder.add_option text: "Delete a pocket", node: @delete_op.operation_node
-      menu_builder.add_option text: "Deposit money to a pocket", node: @deposit_op.operation_node
-      menu_builder.add_option text: "Withdrawal money from a pocket", node: @withdrawals_op.operation_node
-      menu_builder.add_option text: "Send money to a friend from a pocket", node: @send_op.operation_node
-    end
+    menu_builder = MenuNodeBuilder.new
+    menu_builder.add_option text: "List all the pockets", node: @list_op.operation_node
+    menu_builder.add_option text: "Create a pocket", node: @create_op.operation_node
+    menu_builder.add_option text: "Delete a pocket", node: @delete_op.operation_node
+    menu_builder.add_option text: "Deposit money to a pocket", node: @deposit_op.operation_node
+    menu_builder.add_option text: "Withdrawal money from a pocket", node: @withdrawals_op.operation_node
+    menu_builder.add_option text: "Send money to a friend from a pocket", node: @send_op.operation_node
     @menu_node = menu_builder.build
   end
 

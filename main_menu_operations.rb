@@ -8,10 +8,9 @@ module MainOperations
     end
 
     def build_operation_node model_objects:
-      operation_node_builder = OperationNodeBuilder.new do
-        with_action proc: @action_proc
-        add_model objects: model_objects
-      end
+      operation_node_builder = OperationNodeBuilder.new
+      operation_node_builder.with_action proc: @action_proc
+      operation_node_builder.add_model objects: model_objects
       @operation_node = operation_node_builder.build
     end
   end
@@ -24,10 +23,9 @@ module MainOperations
     end
 
     def build_operation_node model_objects:
-      operation_node_builder = OperationNodeBuilder.new do
-        with_action proc: @action_proc
-        add_model objects: model_objects
-      end
+      operation_node_builder = OperationNodeBuilder.new
+      operation_node_builder.with_action proc: @action_proc
+      operation_node_builder.add_model objects: model_objects
       @operation_node = operation_node_builder.build
     end
   end
@@ -35,11 +33,10 @@ module MainOperations
   class DepositOP < OperationLeaf
 
     def build_input_views
-      amount_view_builder = InputViewBuilder.new do
-        with_petition "Enter the amount to be deposited"
-        with_validation expression: //
-        with_hash key: :amount
-      end
+      amount_view_builder = InputViewBuilder.new
+      amount_view_builder.with_petition "Enter the amount to be deposited"
+      amount_view_builder.with_validation expression: //
+      amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
     end
 
@@ -49,11 +46,10 @@ module MainOperations
     end
 
     def build_operation_node model_objects:
-      operation_node_builder = OperationNodeBuilder.new do
-        with_action proc: @action_proc
-        add_model objects: model_objects
-        add_input view: @amount_view
-      end
+      operation_node_builder = OperationNodeBuilder.new
+      operation_node_builder.with_action proc: @action_proc
+      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
   end
@@ -61,11 +57,10 @@ module MainOperations
   class WithdrawalOP < OperationLeaf
 
     def build_input_views
-      amount_view_builder = InputViewBuilder.new do
-        with_petition "Enter the amount to be withdrawn"
-        with_validation expression: //
-        with_hash key: :amount
-      end
+      amount_view_builder = InputViewBuilder.new
+      amount_view_builder.with_petition "Enter the amount to be withdrawn"
+      amount_view_builder.with_validation expression: //
+      amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
     end
 
@@ -75,11 +70,10 @@ module MainOperations
     end
 
     def build_operation_node model_objects:
-      operation_node_builder = OperationNodeBuilder.new do
-        with_action proc: @action_proc
-        add_model objects: model_objects
-        add_input view: @amount_view
-      end
+      operation_node_builder = OperationNodeBuilder.new
+      operation_node_builder.with_action proc: @action_proc
+      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
   end
@@ -87,17 +81,15 @@ module MainOperations
   class SendOP < OperationLeaf
 
     def build_input_views
-      email_view_builder = InputViewBuilder.new do
-        with_petition "Enter the email of the receiver email"
-        with_validation expression: //
-        with_hash key: :email
-      end
+      email_view_builder = InputViewBuilder.new
+      email_view_builder.with_petition "Enter the email of the receiver email"
+      email_view_builder.with_validation expression: //
+      email_view_builder.with_hash key: :email
       @email_view = email_view_builder.build
-      amount_view_builder = InputViewBuilder.new do
-        with_petition "Enter the amount to be sended"
-        with_validation expression: //
-        with_hash key: :amount
-      end
+      amount_view_builder = InputViewBuilder.new
+      amount_view_builder.with_petition "Enter the amount to be sended"
+      amount_view_builder.with_validation expression: //
+      amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
     end
 
@@ -107,12 +99,11 @@ module MainOperations
     end
 
     def build_operation_node model_objects:
-      operation_node_builder = OperationNodeBuilder.new do
-        with_action proc: @action_proc
-        add_model objects: model_objects
-        add_input view: @email_view
-        add_input view: @amount_view
-      end
+      operation_node_builder = OperationNodeBuilder.new
+      operation_node_builder.with_action proc: @action_proc
+      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_input view: @email_view
+      operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
   end
@@ -120,11 +111,10 @@ module MainOperations
   class CheckTransactionsOP < OperationLeaf
 
     def build_input_views
-      quantity_view_builder = InputViewBuilder.new do
-        with_petition "Enter the maximum number of transactions you wish see"
-        with_validation expression: //
-        with_hash key: :quantity
-      end
+      quantity_view_builder = InputViewBuilder.new
+      quantity_view_builder.with_petition "Enter the maximum number of transactions you wish see"
+      quantity_view_builder.with_validation expression: //
+      quantity_view_builder.with_hash key: :quantity
       @quantity_view = quantity_view_builder.build
     end
 
@@ -134,11 +124,10 @@ module MainOperations
     end
 
     def build_operation_node model_objects:
-      operation_node_builder = OperationNodeBuilder.new do
-        with_action proc: @action_proc
-        add_model objects: model_objects
-        add_input view: @quantity_view
-      end
+      operation_node_builder = OperationNodeBuilder.new
+      operation_node_builder.with_action proc: @action_proc
+      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_input view: @quantity_view
       @operation_node = operation_node_builder.build
     end
   end
