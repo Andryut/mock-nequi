@@ -2,6 +2,10 @@ class MenuController
 
   attr_accessor :option_nodes, :back_option
 
+  def initialize
+    yield if block_given?
+  end
+
   def execute selected_option:
     if selected_option == 0 then
       go_back

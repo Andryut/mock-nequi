@@ -2,6 +2,10 @@ class MenuView
 
   attr_accessor :option_nodes, :back_option
 
+  def initialize
+    yield if block_given?
+  end
+
   def show
     print_options
     get_selection
