@@ -8,7 +8,7 @@ class NavigationNode
   end
 
   def play
-    inputed_data = view.show
-    controller.execute inputed_data: inputed_data
+    input = view.show
+    controller.execute input: input
   end
 end

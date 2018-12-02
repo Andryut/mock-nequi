@@ -1,13 +1,13 @@
 class OperationView
 
-  def initialize input_nodes:
-    @input_nodes = input_nodes
+  def initialize input_views:
+    @input_views = input_views
   end
 
   def show
     input_data = Hash.new
-    input_nodes.each do |input_node|
-      input_data.merge!(input_node.play)
+    input_views.each do |input_view|
+      input_data.merge!(input_view.play)
     end
     return input_data
   end

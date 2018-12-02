@@ -1,8 +1,9 @@
 class InputView
 
-  def initialize petition:, regexp:
+  def initialize petition:, regexp:, key:
     @petition = petition
     @regexp = regexp
+    @key = key
   end
 
   def show
@@ -15,7 +16,7 @@ class InputView
   def get_input
     input = gets.chomp
     if @regex =~ input
-      return input
+      return {@key.to_sym => input}
     else
       self.show
     end
