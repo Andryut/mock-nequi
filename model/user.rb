@@ -1,9 +1,9 @@
 class User < Sequel::Model
 
     one_to_one :general_account, key: :owner, read_only: true
-    one_to_one :mattress, key: :owner, read_only: true
+    one_to_one :mattress, class: :MattressCoffer, key: :owner, read_only: true
     one_to_many :pockets, class: :PocketAccount, key: :owner, read_only: true
-
+    one_to_many :goals, class: :GoalCoffer, key: :owner, read_only: true
     one_to_many :receptions, class: :Transfer, key: :receiver
 
   
@@ -16,11 +16,16 @@ class User < Sequel::Model
   
     def after_create
       Account.create_general(owner:self.id)
+      Coffer.create_mattress(owner:self.id, name: self.name + ' - account')
       super
     end
-  
-    def add_pocket
-      Account.create_pocket(owner: self.id)
+    
+    def add_goal name:, total_amount:, duration_in_days:
+      Coffer.create_goal(owner:self.id, name: name, total_amount: total_amount, duration_in_days: duration_in_days)
+    end
+
+    def add_pocket name:
+      Account.create_pocket(owner: self.id, name: name)
     end
     
     def total
