@@ -1,160 +1,154 @@
 module PocketsOperations
 
-  class ListOP < Operation
+  class ListOP < OperationLeaf
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class CreateOP < Operation
+  class CreateOP < OperationLeaf
 
-    def build_input_nodes
-      pocket_name_node_builder = new InputNodeBuilder
-      pocket_name_node_builder.with_petition "Enter the pocket name"
-      pocket_name_node_builder.with_validation expression: //
-      pocket_name_node_builder.with_hash key: :name
-      @pocket_name_node = pocket_name_node_builder.build
+    def build_input_views
+      pocket_name_view_builder = InputViewBuilder.new do
+        with_petition "Enter the pocket name"
+        with_validation expression: //
+        with_hash key: :name
+      end
+      @pocket_name_view = pocket_name_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @pocket_name_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @pocket_name_view
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class DeleteOP < Operation
+  class DeleteOP < OperationLeaf
 
-    def build_input_nodes
-      pocket_name_node_builder = new InputNodeBuilder
-      pocket_name_node_builder.with_petition "Enter the name of the pocket that you wish to delete"
-      pocket_name_node_builder.with_validation expression: //
-      pocket_name_node_builder.with_hash key: :name
-      @pocket_name_node = pocket_name_node_builder.build
+    def build_input_views
+      pocket_name_view_builder = InputViewBuilder.new do
+        with_petition "Enter the name of the pocket that you wish to delete"
+        with_validation expression: //
+        with_hash key: :name
+      end
+      @pocket_name_view = pocket_name_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @pocket_name_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @pocket_name_view
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class DepositOP < Operation
+  class DepositOP < OperationLeaf
 
-    def build_input_nodes
-      amount_node_builder = new InputNodeBuilder
-      amount_node_builder.with_petition "Enter the amount to be deposited"
-      amount_node_builder.with_validation expression: //
-      amount_node_builder.with_hash key: :amount
-      @amount_node = amount_node_builder.build
+    def build_input_views
+      amount_view_builder = InputViewBuilder.new do
+        with_petition "Enter the amount to be deposited"
+        with_validation expression: //
+        with_hash key: :amount
+      end
+      @amount_view = amount_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @amount_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @amount_view
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class WithdrawalOP < Operation
+  class WithdrawalOP < OperationLeaf
 
-    def build_input_nodes
-      amount_node_builder = new InputNodeBuilder
-      amount_node_builder.with_petition "Enter the amount to be withdrawn"
-      amount_node_builder.with_validation expression: //
-      amount_node_builder.with_hash key: :amount
-      @amount_node = amount_node_builder.build
+    def build_input_views
+      amount_view_builder = InputViewBuilder.new do
+        with_petition "Enter the amount to be withdrawn"
+        with_validation expression: //
+        with_hash key: :amount
+      end
+      @amount_view = amount_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @amount_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @amount_view
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class SendOP < Operation
+  class SendOP < OperationLeaf
 
-    def build_input_nodes
-      email_node_builder = new InputNodeBuilder
-      email_node_builder.with_petition "Enter the email of the receiver email"
-      email_node_builder.with_validation expression: //
-      email_node_builder.with_hash key: :email
-      @email_node = email_node_builder.build
-      amount_node_builder = new InputNodeBuilder
-      amount_node_builder.with_petition "Enter the amount to be sended"
-      amount_node_builder.with_validation expression: //
-      amount_node_builder.with_hash key: :amount
-      @amount_node = amount_node_builder.build
+    def build_input_views
+      email_view_builder = InputViewBuilder.new do
+        with_petition "Enter the email of the receiver email"
+        with_validation expression: //
+        with_hash key: :email
+      end
+      @email_view = email_view_builder.build
+      amount_view_builder = InputViewBuilder.new do
+        with_petition "Enter the amount to be sended"
+        with_validation expression: //
+        with_hash key: :amount
+      end
+      @amount_view = amount_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @email_node
-      operation_node_builder.add_input node: @amount_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @email_view
+        add_input view: @amount_view
+      end
       @operation_node = operation_node_builder.build
     end
   end

@@ -1,17 +1,17 @@
 class MattressMenu < MenuTree
 
-  def build_options_nodes session:
-    configured_data = {:session => session}
-    @check_available_op = MattressOperations::CheckAvailableOP.new configured_data: configured_data
-    @deposit_op = MattressOperations::DepositOP.new configured_data: configured_data
-    @withdrawals_op = MattressOperations::WithdrawalOP.new configured_data: configured_data
+  def build_options_nodes model_objects:
+    @check_available_op = MattressOperations::CheckAvailableOP.new model_objects: model_objects
+    @deposit_op = MattressOperations::DepositOP.new model_objects: model_objects
+    @withdrawals_op = MattressOperations::WithdrawalOP.new model_objects: model_objects
   end
 
   def build_menu_node
-    menu_builder = MenuNodeBuilder.new
-    menu_builder.add_option text: "Check the available money", node: @check_available_op.operation_node
-    menu_builder.add_option text: "Deposit money", node: @deposit_op.operation_node
-    menu_builder.add_option text: "Withdrawal money", node: @withdrawals_op.operation_node
+    menu_builder = MenuNodeBuilder.new do
+      add_option text: "Check the available money", node: @check_available_op.operation_node
+      add_option text: "Deposit money", node: @deposit_op.operation_node
+      add_option text: "Withdrawal money", node: @withdrawals_op.operation_node
+    end
     @menu_node = menu_builder.build
   end
 

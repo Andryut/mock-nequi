@@ -1,73 +1,69 @@
 module MattressOperations
 
-  class CheckAvailableOP < Operation
+  class CheckAvailableOP < OperationLeaf
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class DepositOP < Operation
+  class DepositOP < OperationLeaf
 
-    def build_input_nodes
-      amount_node_builder = new InputNodeBuilder
-      amount_node_builder.with_petition "Enter the amount to be deposited"
-      amount_node_builder.with_validation expression: //
-      amount_node_builder.with_hash key: :amount
-      @amount_node = amount_node_builder.build
+    def build_input_views
+      amount_view_builder = InputViewBuilder.new do
+        with_petition "Enter the amount to be deposited"
+        with_validation expression: //
+        with_hash key: :amount
+      end
+      @amount_view = amount_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @amount_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @amount_view
+      end
       @operation_node = operation_node_builder.build
     end
   end
 
-  class WithdrawalOP < Operation
+  class WithdrawalOP < OperationLeaf
 
-    def build_input_nodes
-      amount_node_builder = new InputNodeBuilder
-      amount_node_builder.with_petition "Enter the amount to be withdrawn"
-      amount_node_builder.with_validation expression: //
-      amount_node_builder.with_hash key: :amount
-      @amount_node = amount_node_builder.build
+    def build_input_views
+      amount_view_builder = InputViewBuilder.new do
+        with_petition "Enter the amount to be withdrawn"
+        with_validation expression: //
+        with_hash key: :amount
+      end
+      @amount_view = amount_view_builder.build
     end
 
-    def setup_procs
-      @validation_proc = Proc.new do |inputed_data, configured_data|
-      end
-      @action_proc = Proc.new do |inputed_data, configured_data|
+    def setup_action
+      @action_proc = Proc.new do |inputed_data, model_objects|
       end
     end
 
-    def build_operation_node configured_data:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_validation proc: @validation_proc
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_configured data: configured_data
-      operation_node_builder.add_input node: @amount_node
+    def build_operation_node model_objects:
+      operation_node_builder = OperationNodeBuilder.new do
+        with_action proc: @action_proc
+        add_model objects: model_objects
+        add_input view: @amount_view
+      end
       @operation_node = operation_node_builder.build
     end
   end
