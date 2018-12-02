@@ -43,4 +43,15 @@ class User < Sequel::Model
       pocket = nil
     end
 
+    def close_goal goalCoffer:
+      amount_money = goalCoffer.amount_money
+      
+      coffer = Coffer[goalCoffer.id]
+      coffer.update(active: false)
+
+      self.general_account.deposit_money amount: amount_money
+
+      goalCoffer = nil
+    end
+
 end
