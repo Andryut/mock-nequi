@@ -1,4 +1,5 @@
 class Pocket < Sequel::Model(DB[:accounts].where(type:Account::pocket).where(active: true));
+
   many_to_one :owner, class: :User
   one_to_many :operation_transactions, key: :transmitter_account, read_only: true
   one_to_many :transfer_transactions, key: :transmitter_account, read_only: true
@@ -7,6 +8,7 @@ class Pocket < Sequel::Model(DB[:accounts].where(type:Account::pocket).where(act
     account = Account[self.id]
     account.update(amount_money: account.amount_money + amount)
   end
+
   def remove_money amount:
     account = Account[self.id]
     amount_money = account.amount_money
@@ -17,4 +19,5 @@ class Pocket < Sequel::Model(DB[:accounts].where(type:Account::pocket).where(act
       return false
     end
   end
+  
 end 

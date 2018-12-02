@@ -1,6 +1,7 @@
 Dir[File.join(__dir__, '../connection', '*.rb')].each { |file| load file }
-models = Dir[File.join(__dir__, '../model', '*.rb')]
-models.each do |file|
+
+model_files = Dir[File.join(__dir__, '../model', '*.rb')]
+model_files.each do |file|
     begin
         load file 
     rescue

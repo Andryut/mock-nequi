@@ -1,4 +1,5 @@
 class User < Sequel::Model
+
     one_to_one :general_account, key: :owner, read_only: true
     one_to_many :pockets, key: :owner, read_only: true
     one_to_many :receptions, class: :Transfer, key: :receiver
@@ -18,13 +19,20 @@ class User < Sequel::Model
     def add_pocket
       Account.create_pocket(owner: self.id)
     end
-  
+    
+    def total
+
+    end 
+
     def remove_pocket pocket:
       amount_money = pocket.amount_money
-      self.general_account.deposit_money amount: amount_money
-  
+      
       account = Account[pocket.id]
       account.update(active: false)
+
+      self.general_account.deposit_money amount: amount_money
+
       pocket = nil
     end
+    
 end
