@@ -1,4 +1,4 @@
-class GeneralAccount < Sequel::Model(DB[:accounts].where(type:Account::general_account));
+class GeneralAccount < Sequel::Model(DB[:accounts].where(type:Account::general_type));
 
   one_to_one :owner, class: :User
   one_to_many :operation_transactions, key: :transmitter_account, read_only: true
@@ -19,5 +19,5 @@ class GeneralAccount < Sequel::Model(DB[:accounts].where(type:Account::general_a
       return false
     end
   end
-  
+
 end

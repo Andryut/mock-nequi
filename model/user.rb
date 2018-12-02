@@ -2,8 +2,8 @@ class User < Sequel::Model
 
     one_to_one :general_account, key: :owner, read_only: true
     one_to_one :mattress, key: :owner, read_only: true
-    one_to_many :pockets, key: :owner, read_only: true
-    
+    one_to_many :pockets, class: :PocketAccount, key: :owner, read_only: true
+
     one_to_many :receptions, class: :Transfer, key: :receiver
 
   
@@ -15,7 +15,7 @@ class User < Sequel::Model
     end
   
     def after_create
-      Account.create_general_account(owner:self.id)
+      Account.create_general(owner:self.id)
       super
     end
   
