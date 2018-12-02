@@ -1,6 +1,6 @@
-class Operation < Sequel::Model
+class Transaction < Sequel::Model
 
-  one_to_one :associated_transaction, class: :Transaction, key_column: :associated_transaction, key: :id
-  many_to_one :type, class: :OperationType
+  one_to_one :associated_movement, class: :Transaction, key_column: :associated_movement, key: :id
+  many_to_one :type, class: :TransactionType
   
 end
