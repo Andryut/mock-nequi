@@ -1,8 +1,11 @@
 class User < Sequel::Model
 
     one_to_one :general_account, key: :owner, read_only: true
+    one_to_one :mattress, key: :owner, read_only: true
     one_to_many :pockets, key: :owner, read_only: true
+    
     one_to_many :receptions, class: :Transfer, key: :receiver
+
   
     def self.login email:, password:
       user = User.where(email: email).first
@@ -34,5 +37,5 @@ class User < Sequel::Model
 
       pocket = nil
     end
-    
+
 end
