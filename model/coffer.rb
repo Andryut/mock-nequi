@@ -1,4 +1,6 @@
 class Coffer < Sequel::Model
+    
+    one_to_one :owner, class: :User
 
     def self.mattress_type
       'mattress'
