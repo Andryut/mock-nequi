@@ -1,21 +1,18 @@
 class OperationNodeBuilder
 
   def initialize
-    @configured_data = Hash.new
-    @input_nodes = Array.new
+    @model_objects = Hash.new
+    @input_views = Array.new
     @back_node = nil
+    yield if block_given?
   end
 
-  def add_input node:
-    @input_nodes << node
+  def add_input view:
+    @input_views << view
   end
 
-  def add_configured data:
-    @configured_data.merge!(data)
-  end
-
-  def with_validation proc:
-    @validation_proc = proc
+  def add_model objects:
+    @model_objects.merge!(objects)
   end
 
   def with_action proc:
@@ -27,10 +24,11 @@ class OperationNodeBuilder
   end
 
   def buid
-    view = OperationView.new input_nodes: @input_nodes
-    controller = OperationController.new validation_proc: @validation_proc, action_proc: @action_proc
-    controller.configured_data = @configured_data
-    controller.back_node = @back_node
+    view = OperationView.new input_views: @input_views
+    controller = OperationController.new action_proc: @action_proc do
+      self.model_objects = @model_objects
+      self.back_node = @back_node
+    end
     return NavigationNode.new view: view, controller: controller
   end
 end
