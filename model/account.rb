@@ -9,7 +9,7 @@ class Account < Sequel::Model
     end
 
     def self.create_general owner:, name:
-      self.create(owner:owner, name: name, type: general_type)
+      self.create(owner:owner, name: name)
     end
 
     def self.create_pocket owner:, name:
