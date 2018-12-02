@@ -1,13 +1,18 @@
-Dir[File.join(__dir__, '../connection', '*.rb')].each { |file| load file }
+require File.join(__dir__, '../connection', 'connection.rb')
 
-model_files = Dir[File.join(__dir__, '../model', '*.rb')]
-model_files.each do |file|
-    begin
-        load file 
-    rescue
-        model_files.push(file)
-    end
-end
+require File.join(__dir__, '../model', 'user.rb')
+require File.join(__dir__, '../model', 'account.rb')
+require File.join(__dir__, '../model', 'general_account.rb')
+require File.join(__dir__, '../model', 'pocket_account.rb')
+require File.join(__dir__, '../model', 'transaction.rb')
+require File.join(__dir__, '../model', 'transfer_transaction.rb')
+require File.join(__dir__, '../model', 'operation_transaction.rb')
+require File.join(__dir__, '../model', 'operation_type.rb')
+require File.join(__dir__, '../model', 'operation.rb')
+require File.join(__dir__, '../model', 'transfer.rb')
+require File.join(__dir__, '../model', 'coffer.rb')
+require File.join(__dir__, '../model', 'mattress_coffer.rb')
+require File.join(__dir__, '../model', 'goal_coffer.rb')
+require File.join(__dir__, '../model', 'goal.rb')
 
-puts User.create(name:'name', email: 'email4', password: '123456').values
-puts GeneralAccount.first.owner.values
+puts GeneralAccount.first.owner.mattress.values

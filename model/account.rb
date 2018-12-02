@@ -13,7 +13,11 @@ class Account < Sequel::Model
     end
 
     def self.create_pocket owner:, name:
-      self.create(owner:owner, name: name, type: pocket_type)
+      begin
+        self.create(owner:owner, name: name, type: pocket_type)
+      rescue
+        raise 'There is already a pocket with the same name'
+      end
     end
 
 end
