@@ -11,6 +11,7 @@ class GeneralAccount < Sequel::Model(DB[:accounts].where(type: Account::general_
       unless transfer
         Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::entry_type
       end
+      self.refresh
     else
       raise 'The amount to be deposit must be positive'
     end
@@ -28,6 +29,7 @@ class GeneralAccount < Sequel::Model(DB[:accounts].where(type: Account::general_
       unless transfer
         Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::entry_type
       end
+      self.refresh
     else
       raise 'The amount to be withdrawn must be positive'
     end
