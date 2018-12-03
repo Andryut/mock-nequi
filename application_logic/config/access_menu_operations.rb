@@ -19,6 +19,12 @@ module AccessOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, model_objects|
+        begin 
+          model_objects[:current_user] = User.login(email: inputed_data[:email], password: inputed_data[:password])
+          puts 'welcome '+ model_objects[:current_user].name
+        rescue RuntimeError => e
+          puts e.message
+        end
       end
     end
 
@@ -54,6 +60,13 @@ module AccessOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, model_objects|
+        begin 
+          model_objects[:current_user] = User.create(name: inputed_data[:name], email: inputed_data[:email], password: inputed_data[:password])
+          puts 'Congratulations, you have successfully registered'
+          puts 'Welcome '+ model_objects[:current_user].name
+        rescue RuntimeError => e
+          puts e.message
+        end
       end
     end
 

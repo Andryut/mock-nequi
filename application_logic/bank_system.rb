@@ -14,10 +14,11 @@ class BankSystem
   protected
 
   def configure_navigation_tree
-    model_objects = {}
+    model_objects = {curent_user: @current_user}
     @navigation_tree = NavigationTree.new model_objects: model_objects
   end
 
   def configure_model
+    @current_user = nil
   end
 end
