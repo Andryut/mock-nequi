@@ -8,7 +8,10 @@ class User < Sequel::Model
     one_to_many :goals, class: :GoalCoffer, key: :owner, read_only: true, reciprocal: :owner
     one_to_many :receptions, class: :Transfer, key: :receiver, reciprocal: :receiver
 
-  
+    def self.default
+      return User[1]
+    end
+    
     def self.login email:, password:
 
       user = User[email: email]
