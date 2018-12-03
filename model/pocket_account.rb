@@ -34,5 +34,14 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
       raise 'The pocket to be withdrawn must be positive'
     end
   end
+
+  def delete
+    account = self.owner.general_account
+
+    Account[self.id].update(amount_money: 0, active: false)
+    account.deposit_money(ammount: self.amount_money, transfer: true)
+
+    self.owner.refresh
+  end
   
 end 

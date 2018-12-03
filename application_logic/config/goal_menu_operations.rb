@@ -9,11 +9,12 @@ module GoalsOperations
         goal_coffers.each do |goal_coffer|
           goal = goal_coffers.goal
           puts 'Name: ' + goal_coffer.name
-          puts 'Total amount: %0.2f' % goal.total_amount.to_f
-          puts 'Saved money: %0.2f' % goal_coffer.amount_money.to_f
-          puts 'Remaining money: %0.2f' % (goal.total_amount.to_f - goal_coffer.amount_money.to_f)
+          puts 'Total amount: $%0.2f' % goal.total_amount.to_f
+          puts 'Saved money: $%0.2f' % goal_coffer.amount_money.to_f
+          puts 'Remaining money: $%0.2f' % (goal.total_amount.to_f - goal_coffer.amount_money.to_f)
           puts 'Status: ' + goal_coffer.status
           puts 'Deadline: ' + goal.deadline.to_s
+          puts ''
         end
       end
     end

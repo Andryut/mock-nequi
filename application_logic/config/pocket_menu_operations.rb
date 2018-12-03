@@ -4,6 +4,12 @@ module PocketsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        user = Session.current_user
+        pocket_accounts = user.pocket_accounts
+        pocket_accounts.each do |pocket_account|
+          puts 'Name: ' + pocket_account.name
+          puts 'Balance: $%0.2f' % pocket_account.amount_money
+        end
       end
     end
 
@@ -27,6 +33,13 @@ module PocketsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          user.create_pocket(name: inputed_data[:name])
+          puts 'Pocket created correctly'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
@@ -51,6 +64,19 @@ module PocketsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          pockets_dataset = Session.current_user.pockets_dataset
+          pocket = pockets_dataset[name: inputed_data[:name]]
+          unless pocket.nil?
+            pocket.delete
+            pocket = nil
+            puts 'Pocket deleted correctly'
+          else
+            puts 'A goal with the entered name was not found'
+          end
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
@@ -66,6 +92,11 @@ module PocketsOperations
   class DepositOP < OperationLeaf
 
     def build_input_views
+      pocket_name_view_builder = InputViewBuilder.new
+      pocket_name_view_builder.with_petition "Enter the pocket name"
+      pocket_name_view_builder.with_validation expression: //
+      pocket_name_view_builder.with_hash key: :name
+      @pocket_name_view = pocket_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
       amount_view_builder.with_petition "Enter the amount to be deposited"
       amount_view_builder.with_validation expression: //
@@ -75,10 +106,27 @@ module PocketsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          pockets_dataset = Session.current_user.pockets_dataset
+          pocket = pockets_dataset[name: inputed_data[:name]]
+          unless pocket.nil?
+            pocket.deposit_money(amount: inputed_data[:amount].to_f)
+            puts 'Money deposited correctly.'
+          else
+            puts 'A goal with the entered name was not found'
+          end
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
     def build_operation_node navigation_nodes:
+      pocket_name_view_builder = InputViewBuilder.new
+      pocket_name_view_builder.with_petition "Enter the pocket name"
+      pocket_name_view_builder.with_validation expression: //
+      pocket_name_view_builder.with_hash key: :name
+      @pocket_name_view = pocket_name_view_builder.build
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
@@ -99,6 +147,18 @@ module PocketsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          pockets_dataset = Session.current_user.pockets_dataset
+          pocket = pockets_dataset[name: inputed_data[:name]]
+          unless pocket.nil?
+            pocket.withdrawn_money(amount: inputed_data[:amount].to_f)
+            puts 'Money withdrawn correctly.'
+          else
+            puts 'A goal with the entered name was not found'
+          end
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
@@ -114,6 +174,11 @@ module PocketsOperations
   class SendOP < OperationLeaf
 
     def build_input_views
+      pocket_name_view_builder = InputViewBuilder.new
+      pocket_name_view_builder.with_petition "Enter the pocket name"
+      pocket_name_view_builder.with_validation expression: //
+      pocket_name_view_builder.with_hash key: :name
+      @pocket_name_view = pocket_name_view_builder.build
       email_view_builder = InputViewBuilder.new
       email_view_builder.with_petition "Enter the email of the receiver email"
       email_view_builder.with_validation expression: //
@@ -128,6 +193,18 @@ module PocketsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          pockets_dataset = Session.current_user.pockets_dataset
+          pocket = pockets_dataset[name: inputed_data[:name]]
+          unless pocket.nil?
+            Movement.createTransfer transmitter_account:pocket, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
+            puts 'Money sent correctly.'
+          else
+            puts 'A goal with the entered name was not found'
+          end
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
