@@ -15,7 +15,7 @@ class User < Sequel::Model
       raise 'The email entered is incorrect.' if user.nil?
 
       sha2 = Digest::SHA2.new
-      sha2.update password + user.salt.to_s
+      sha2.update(password + user.salt.to_s)
 
       raise 'The password entered is incorrect.' unless user.password == sha2.hexdigest
 
@@ -31,52 +31,39 @@ class User < Sequel::Model
       self.salt = salt_generator.rand(1000000)
       
       sha2 = Digest::SHA2.new
-      sha2.update self.password + self.salt.to_s
+      sha2.update(self.password + self.salt.to_s)
       self.password = sha2.hexdigest
 
       super
     end
 
     def after_create
-      Account.create_general(owner:self.id, name: self.name + ' - general')
-      Coffer.create_mattress(owner:self.id, name: self.name + ' - mattress')
+      Account.create_general(owner_id: self.id, name: self.name + ' - general')
+      Coffer.create_mattress(owner_id: self.id, name: self.name + ' - mattress')
       super
     end
     
     def add_goal name:, total_amount:, duration_in_days:
-      Coffer.create_goal(owner:self.id, name: name, total_amount: total_amount, duration_in_days: duration_in_days)
+      Coffer.create_goal(owner_id: self.id, name: name, total_amount: total_amount, duration_in_days: duration_in_days)
+      self.refresh
     end
 
     def add_pocket name:
-      Account.create_pocket(owner: self.id, name: name)
+      Account.create_pocket(owner_id: self.id, name: name)
+      self.refresh
     end
     
-    def total
-
+    def total_money
+      self.refresh
+      total_money = self.general_account.amount_money
+      total_money += self.mattress.amount_money
+      self.pockets.each do |pocket|
+        total_money += pocket.amount_money
+      end
+      self.goals.each do |goal|
+        total_money += goal.amount_money
+      end
+      return total_money
     end 
-
-    def remove_pocket pocket:
-      amount_money = pocket.amount_money
-      
-      account = Account[pocket.id]
-      account.update(active: false)
-
-      self.general_account.deposit_money amount: amount_money, transfer: true
-
-      pocket = nil
-    end
-
-    def close_goal goalCoffer:
-      amount_money = goalCoffer.amount_money
-      
-      coffer = Coffer[goalCoffer.id]
-      coffer.update(active: false)
-
-      self.general_account.deposit_money amount: amount_money, transfer: true
-
-      goalCoffer = nil
-    end
-
-    private
 
 end

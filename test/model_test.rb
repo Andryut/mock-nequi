@@ -32,6 +32,8 @@ begin
 rescue RuntimeError => e
     puts e.message
 end
+#TOTAL DE DINERO
+puts 'Tu dinero total es: '+ current_user.total_money.to_i.to_s
 #DEPOSITAR DINERO CUENTA
 puts 'depositando 100 USD en tu cuenta..'
 begin
@@ -64,3 +66,5 @@ begin
 rescue RuntimeError => e
     puts e.message
 end
+#TOTAL DE DINERO
+puts 'Tu dinero total es: '+ current_user.total_money.to_i.to_s
