@@ -1,5 +1,5 @@
 # mock-nequi
-##Installation guide
+## Installation guide
 
 ### Step 1: Install Ruby and the Devkit
 [Ruby and Devkit for windows](https://rubyinstaller.org/downloads/).
