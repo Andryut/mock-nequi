@@ -15,10 +15,10 @@ class BankSystem
 
   def configure_navigation_tree
     navigation_nodes = {}
-    @navigation_tree = NavigationTree.new navigation_nodes: navigation_nodes
+    @navigation_tree = NavigationTree.new navigation_nodes: navigation_nodes, session: @session
   end
 
   def configure_model
-    Session.current_user = User.default_user
+    @session = Session.new
   end
 end

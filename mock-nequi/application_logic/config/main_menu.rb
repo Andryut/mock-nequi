@@ -1,15 +1,15 @@
 class MainMenu < MenuTree
 
-  def build_options_nodes navigation_nodes:
-    @check_available_op = MainOperations::CheckAvailableOP.new navigation_nodes: navigation_nodes
-    @check_total_op = MainOperations::CheckTotalOP.new navigation_nodes: navigation_nodes
-    @deposit_op = MainOperations::DepositOP.new navigation_nodes: navigation_nodes
-    @withdrawals_op = MainOperations::WithdrawalOP.new navigation_nodes: navigation_nodes
-    @send_op = MainOperations::SendOP.new navigation_nodes: navigation_nodes
-    @check_transactions_op = MainOperations::CheckTransactionsOP.new navigation_nodes: navigation_nodes
-    @mattress_menu = MattressMenu.new navigation_nodes: navigation_nodes
-    @pocket_menu = PocketMenu.new navigation_nodes: navigation_nodes
-    @goal_menu = GoalMenu.new navigation_nodes: navigation_nodes
+  def build_options_nodes navigation_nodes:, session:
+    @check_available_op = MainOperations::CheckAvailableOP.new navigation_nodes: navigation_nodes, session: session
+    @check_total_op = MainOperations::CheckTotalOP.new navigation_nodes: navigation_nodes, session: session
+    @deposit_op = MainOperations::DepositOP.new navigation_nodes: navigation_nodes, session: session
+    @withdrawals_op = MainOperations::WithdrawalOP.new navigation_nodes: navigation_nodes, session: session
+    @send_op = MainOperations::SendOP.new navigation_nodes: navigation_nodes, session: session
+    @check_transactions_op = MainOperations::CheckTransactionsOP.new navigation_nodes: navigation_nodes, session: session
+    @mattress_menu = MattressMenu.new navigation_nodes: navigation_nodes, session: session
+    @pocket_menu = PocketMenu.new navigation_nodes: navigation_nodes, session: session
+    @goal_menu = GoalMenu.new navigation_nodes: navigation_nodes, session: session
   end
 
   def build_menu_node
