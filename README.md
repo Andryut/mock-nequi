@@ -12,7 +12,7 @@ gem install sequel
 
 ### Step 3: Clone project
 ```
-git clone https://github.com/Bohurtadop/Mock-Nequi-Project.git
+git clone https://github.com/Andryut/mock-nequi.git
 ```
 
 ### Step 4: Request access to database
