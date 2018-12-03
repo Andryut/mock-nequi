@@ -1,4 +1,4 @@
-class InputView
+class InputView < View
 
   def initialize petition:, regexp:, key:
     @petition = petition
@@ -7,6 +7,7 @@ class InputView
   end
 
   def show
+    clean_screen
     puts @petition
     return get_input
   end

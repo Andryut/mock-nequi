@@ -14,6 +14,7 @@ require_relative '../model/mattress_coffer.rb'
 require_relative '../model/goal_coffer.rb'
 require_relative '../model/goal.rb'
 
+require_relative 'view.rb'
 require_relative 'menu_view.rb'
 require_relative 'navigation_node.rb'
 require_relative 'operation_controller.rb'

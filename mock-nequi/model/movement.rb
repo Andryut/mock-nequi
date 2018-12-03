@@ -24,7 +24,7 @@ class Movement < Sequel::Model
     unless reciever.nil?
       movement = Movement.create(transmitter_account:transmitter_account.id, type: self.transfer_type, amount_money: amount_money)
       Transfer.create(associated_movement:movement.id, reciever: reciever.id)
-      transmitter_account.remove_money(amount:amount_money, transfer: true)
+      transmitter_account.withdrawn_money(amount:amount_money, transfer: true)
       reciever.general_account.deposit_money(amount:amount_money, transfer: true)
     else
       raise 'The entered email has not been found in the system.'

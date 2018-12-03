@@ -1,4 +1,4 @@
-class MenuView
+class MenuView < View
 
   attr_accessor :option_nodes, :back_option
 
@@ -7,6 +7,7 @@ class MenuView
   end
 
   def show
+    clean_screen
     print_options
     get_selection
   end
