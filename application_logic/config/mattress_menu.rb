@@ -1,9 +1,9 @@
 class MattressMenu < MenuTree
 
-  def build_options_nodes model_objects:
-    @check_available_op = MattressOperations::CheckAvailableOP.new model_objects: model_objects
-    @deposit_op = MattressOperations::DepositOP.new model_objects: model_objects
-    @withdrawals_op = MattressOperations::WithdrawalOP.new model_objects: model_objects
+  def build_options_nodes navigation_nodes:
+    @check_available_op = MattressOperations::CheckAvailableOP.new navigation_nodes: navigation_nodes
+    @deposit_op = MattressOperations::DepositOP.new navigation_nodes: navigation_nodes
+    @withdrawals_op = MattressOperations::WithdrawalOP.new navigation_nodes: navigation_nodes
   end
 
   def build_menu_node

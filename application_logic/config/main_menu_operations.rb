@@ -3,16 +3,16 @@ module MainOperations
   class CheckAvailableOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
-        account = model_objects[:current_user].general_account
-        puts '$%0.2f' % account.ammount_money
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        account = Session.current_user.general_account
+        puts '$%0.2f' % account.amount_money
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       @operation_node = operation_node_builder.build
     end
   end
@@ -20,15 +20,15 @@ module MainOperations
   class CheckTotalOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
-        puts '$%0.2f' % model_objects[:current_user].total_money
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        puts '$%0.2f' % Session.current_user.total_money
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       @operation_node = operation_node_builder.build
     end
   end
@@ -44,14 +44,14 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -68,14 +68,14 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -97,14 +97,14 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
@@ -122,14 +122,14 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @quantity_view
       @operation_node = operation_node_builder.build
     end
