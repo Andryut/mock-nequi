@@ -2,16 +2,16 @@ require 'digest'
 
 class User < Sequel::Model
 
-    one_to_one :general_account, key: :owner, read_only: true
-    one_to_one :mattress, class: :MattressCoffer, key: :owner, read_only: true
-    one_to_many :pockets, class: :PocketAccount, key: :owner, read_only: true
-    one_to_many :goals, class: :GoalCoffer, key: :owner, read_only: true
-    one_to_many :receptions, class: :Transfer, key: :receiver
+    one_to_one :general_account, key: :owner, read_only: true, reciprocal: :owner
+    one_to_one :mattress, class: :MattressCoffer, key: :owner, read_only: true, reciprocal: :owner
+    one_to_many :pockets, class: :PocketAccount, key: :owner, read_only: true, reciprocal: :owner
+    one_to_many :goals, class: :GoalCoffer, key: :owner, read_only: true, reciprocal: :owner
+    one_to_many :receptions, class: :Transfer, key: :receiver, reciprocal: :receiver
 
   
     def self.login email:, password:
 
-      user = User.where(email: email).first
+      user = User[email: email]
       raise 'The email entered is incorrect.' if user.nil?
 
       sha2 = Digest::SHA2.new

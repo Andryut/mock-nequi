@@ -20,6 +20,11 @@ begin
 rescue RuntimeError => e
     puts e.message
 end
+begin
+    User[email: 1].mattress.deposit_money(amount: 10)
+rescue RuntimeError => e
+    puts e.message
+end
 begin 
     puts User.login(email:'1', password:'pepe').values
 rescue RuntimeError => e

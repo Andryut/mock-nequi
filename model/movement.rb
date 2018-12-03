@@ -8,21 +8,25 @@ class Movement < Sequel::Model
     'transfer'
   end
   
-  def self.create_transaction transmitter_account:, amount_money:, transaction_type:
+  def before_create
+    raise 'The amount of money must be positive.' unless self.amount_money > 0
+    super
+  end
 
-    raise 'The amount to be deposit must be positive' unless amount_money > 0
-
-    movement = self.create(transmitter_account:transmitter_account, type: transaction_type, amount_money: amount_money)
+  def self.create_transaction transmitter_account_id:, amount_money:, transaction_type:
+    movement = self.create(transmitter_account:transmitter_account_id, type: transaction_type, amount_money: amount_money)
     Transaction.create(associated_movement: movement.id, type: transaction_type)
   end
 
   def self.create_transfer transmitter_account:, amount_money:, receiver_email:
-    reciever = User[email:receiver_email].first
+    reciever = User[email:receiver_email]
 
-    raise 'The entered email has not been found in the system.' if(reciever.nil?)
+    raise 'The entered email has not been found in the system.' if reciever.nil?
 
-    movement = self.create(transmitter_account:transmitter_account, type: transfer_type, amount_money: amount_money)
-
+    movement = self.create(transmitter_account:transmitter_account.id, type: transfer_type, amount_money: amount_money)
+    Transfer.create(associated_movement:movement.id, reciever: reciever.id)
+    transmitter_account.remove_money(amount:amount_money)
+    reciever.general_account.deposit_money(amount:amount_money)
   end
 
 end
