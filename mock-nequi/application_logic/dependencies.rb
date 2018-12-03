@@ -1,5 +1,8 @@
+
+puts 'Conecting to database...'
 require_relative '../connection/connection.rb'
 
+puts 'Loading data model...'
 require_relative '../model/user.rb'
 require_relative '../model/account.rb'
 require_relative '../model/general_account.rb'
@@ -14,6 +17,7 @@ require_relative '../model/mattress_coffer.rb'
 require_relative '../model/goal_coffer.rb'
 require_relative '../model/goal.rb'
 
+puts 'Importing dependencies...'
 require_relative 'view.rb'
 require_relative 'menu_view.rb'
 require_relative 'navigation_node.rb'
@@ -38,3 +42,5 @@ require_relative 'config/goal_menu.rb'
 require_relative 'config/pocket_menu.rb'
 require_relative 'config/mattress_menu.rb'
 require_relative 'config/navigation_tree.rb'
+
+puts 'Done!'

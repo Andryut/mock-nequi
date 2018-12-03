@@ -10,5 +10,10 @@ db_connection_params = {
   :password => '@20181120DBpass',
   :azure => true
 }
-
-DB = Sequel.connect(db_connection_params)
+begin
+  DB = Sequel.connect(db_connection_params)
+rescue
+  puts 'ERROR'
+  puts 'This project works with a database hosted in azure cloud, to connect to it from your computer, you must request access to the email jtorresf@unal.edu.co, attaching in the body of the message your IP address, which you can know in this link: http://www.cualesmiip.com/'
+  exit!
+end
