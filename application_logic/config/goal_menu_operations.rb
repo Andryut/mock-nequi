@@ -4,6 +4,17 @@ module GoalsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        user = Session.current_user
+        goal_coffers = user.goal_coffers
+        goal_coffers.each do |goal_coffer|
+          goal = goal_coffers.goal
+          puts 'Name: ' + goal_coffer.name
+          puts 'Total amount: %0.2f' % goal.total_amount.to_f
+          puts 'Saved money: %0.2f' % goal_coffer.amount_money.to_f
+          puts 'Remaining money: %0.2f' % (goal.total_amount.to_f - goal_coffer.amount_money.to_f)
+          puts 'Status: ' + goal_coffer.status
+          puts 'Deadline: ' + goal.deadline.to_s
+        end
       end
     end
 
@@ -24,19 +35,26 @@ module GoalsOperations
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
-      amount_view_builder.with_petition "Enter the amount for the new goal"
+      amount_view_builder.with_petition "Enter the target money amount"
       amount_view_builder.with_validation expression: //
       amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
       date_view_builder = InputViewBuilder.new
-      date_view_builder.with_petition "Enter the limit date for the new goal dd-mm-yyyy"
+      date_view_builder.with_petition "Enter the maximum number of days to complete the goal"
       date_view_builder.with_validation expression: //
-      date_view_builder.with_hash key: :date
+      date_view_builder.with_hash key: :days
       @date_view = date_view_builder.build
     end
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          user.create_goal(name: inputed_data[:name], total_amount: inputed_data[:amount].to_f, duration_in_days: inputed_data[:days].to_i)
+          puts 'Goal created correctly'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
@@ -63,6 +81,19 @@ module GoalsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          goals_dataset = Session.current_user.goals_dataset
+          goal = goals_dataset[name: inputed_data[:name]]
+          unless goal.nil?
+            goal.close
+            goal = nil
+            puts 'Goal closed correctly'
+          else
+            puts 'A goal with the entered name was not found'
+          end
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
@@ -92,6 +123,18 @@ module GoalsOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          goals_dataset = Session.current_user.goals_dataset
+          goal = goals_dataset[name: inputed_data[:name]]
+          unless goal.nil?
+            goal.deposit_money(amount: inputed_data[:amount])
+            puts 'Money deposited correctly.'
+          else
+            puts 'A goal with the entered name was not found'
+          end
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
