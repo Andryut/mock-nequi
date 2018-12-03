@@ -1,4 +1,4 @@
-require './operation_leaf_template'
+require_relative 'operation_leaf_template.rb'
 
 module AccessOperations
 
@@ -7,7 +7,7 @@ module AccessOperations
     def build_input_views
       email_view_builder = InputViewBuilder.new
       email_view_builder.with_petition "Enter your email"
-      email_view_builder.with_validation expression: //
+      email_view_builder.with_validation expression: /@/
       email_view_builder.with_hash key: :email
       @email_view = email_view_builder.build
       password_view_builder = InputViewBuilder.new

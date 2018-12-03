@@ -1,4 +1,4 @@
-require './menu_tree_template'
+require_relative 'menu_tree_template.rb'
 
 class AccessMenu < MenuTree
 

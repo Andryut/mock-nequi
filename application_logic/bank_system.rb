@@ -1,4 +1,4 @@
-load 'dependencies.rb'
+require_relative 'dependencies.rb'
 
 class BankSystem
 

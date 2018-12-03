@@ -1,10 +1,10 @@
 class GoalMenu < MenuTree
 
   def build_options_nodes model_objects:
-    @list_op = GoalOperations::ListOP.new model_objects: model_objects
-    @create_op = GoalOperations::CreateOP.new model_objects: model_objects
-    @close_op = GoalOperations::CloseOP.new model_objects: model_objects
-    @deposit_op = GoalOperations::DepositOP.new model_objects: model_objects
+    @list_op = GoalsOperations::ListOP.new model_objects: model_objects
+    @create_op = GoalsOperations::CreateOP.new model_objects: model_objects
+    @close_op = GoalsOperations::CloseOP.new model_objects: model_objects
+    @deposit_op = GoalsOperations::DepositOP.new model_objects: model_objects
   end
 
   def build_menu_node

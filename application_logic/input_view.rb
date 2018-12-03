@@ -15,7 +15,7 @@ class InputView
 
   def get_input
     input = gets.chomp
-    if @regex =~ input
+    if input =~ @regexp
       return {@key.to_sym => input}
     else
       self.show

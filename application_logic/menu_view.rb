@@ -21,12 +21,18 @@ class MenuView
   end
 
   def get_selection
-    selected_option = gets.chomp.to_i
-    if selected_option < 0 or selected_option > @option_nodes.length then
-      puts "#{selected_option} is not an option."
+    selected_option = gets.chomp
+    unless selected_option =~ /\d/
+      puts "#{selected_option} is not a number."
       self.show
     else
-      return selected_option
+      selected_option = Integer(selected_option)
+      if selected_option < 0 or selected_option > @option_nodes.length then
+        puts "#{selected_option} is not an option."
+        self.show
+      else
+        return selected_option
+      end
     end
   end
 end
