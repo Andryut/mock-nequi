@@ -4,6 +4,8 @@ module MattressOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        mattress = Session.current_user.mattress
+        puts '$%0.2f' % mattress.amount_money
       end
     end
 
@@ -27,6 +29,14 @@ module MattressOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          mattress = user.mattress
+          mattress.deposit_money(amoutn: inputed_data[:amount].to_f)
+          puts 'Money deposited correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
@@ -51,6 +61,14 @@ module MattressOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          mattress = user.mattress
+          mattress.withdrawn_money(amount: inputed_data[:amount].to_f)
+          puts 'Money withdrawn correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 

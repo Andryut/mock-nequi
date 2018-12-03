@@ -23,8 +23,8 @@ module AccessOperations
           Session.current_user = User.login(email: inputed_data[:email], password: inputed_data[:password])
           puts 'welcome '+ Session.current_user.name
           navigation_nodes[:main_menu].play
-        rescue RuntimeError => e
-          puts e.message
+        rescue => exception
+          puts exception.message
         end
       end
     end
@@ -66,8 +66,8 @@ module AccessOperations
           puts 'Congratulations, you have successfully registered'
           puts 'Welcome '+ Session.current_user
           navigation_nodes[:main_menu].play
-        rescue RuntimeError => e
-          puts e.message
+        rescue => exception
+          puts exception.message
         end
       end
     end
