@@ -1,6 +1,6 @@
 class Transaction < Sequel::Model
 
-  one_to_one :associated_movement, class: :Transaction, key_column: :associated_movement, key: :id
+  one_to_one :associated_movement
 
   def self.entry_type
     'entry'

@@ -22,11 +22,11 @@ class Coffer < Sequel::Model
                 
                 Goal.create(coffer: coffer.id, total_amount: total_amount, deadline: deadline)
             rescue
-                raise 'There is already a goal with the same name'
+                raise 'There is already a goal with the same name.'
             end
         else
-            raise 'total_amount must be a positive amount' if total_amount <= 0
-            raise 'duration_in_days must be a positive amount' if duration_in_days <= 0
+            raise 'The total amount must be positive.' unless total_amount > 0
+            raise 'The duration of the goal must be positive.' unless duration_in_days > 0
         end
     end
     

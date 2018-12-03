@@ -9,12 +9,12 @@ class Account < Sequel::Model
     end
 
     def self.create_general owner:, name:
-      self.create(owner:owner, name: name)
+      self.create(owner:owner, name: name) #default is general
     end
 
     def self.create_pocket owner:, name:
       begin
-        self.create(owner:owner, name: name, type: pocket_type)
+        self.create(owner:owner, name: name, type: self.pocket_type)
       rescue
         raise 'There is already a pocket with the same name'
       end
