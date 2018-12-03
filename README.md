@@ -5,11 +5,16 @@
 [Ruby and Devkit for windows](https://rubyinstaller.org/downloads/).
 
 #### Step 2: Install tinytds and sequel gems
-```
-gem install tiny_tds
-gem install sequel
-```
-
+##### Windows
+  ```
+  gem inst tiny_tds 
+  gem inst sequel
+  ```
+##### Linus & Mac
+  ```
+  gem install tiny_tds 
+  gem install sequel
+  ```
 #### Step 3: Clone project
 ```
 git clone https://github.com/Andryut/mock-nequi.git
