@@ -8,7 +8,7 @@
 ##### Windows
   ```
   gem inst tiny_tds 
-  gem install sequel
+  gem inst sequel
   ```
 ##### Linus & Mac
   ```
