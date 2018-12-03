@@ -1,13 +1,21 @@
 class Session
 
-    @@current_user = nil
+    attr_reader :current_user
 
-    def self.current_user= current_user
-        @@current_user = current_user
+    def initialize
+        @current_user = User.default_user
     end
 
-    def self.current_user
-        return @@current_user
+    def login email:, password:
+        @current_user = User.login email: email, password: password
+    end
+
+    def create_and_login name:, email:, password:
+        @current_user = User.create name: name, email: email, password: password
+    end
+
+    def sign_off
+        @current_user = User.default_user
     end
 
 end

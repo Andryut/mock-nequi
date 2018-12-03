@@ -2,13 +2,13 @@ class MenuTree
 
   attr_reader :menu_node
 
-  def initialize navigation_nodes:
-    self.build_options_nodes navigation_nodes: navigation_nodes
+  def initialize navigation_nodes:, session:
+    self.build_options_nodes navigation_nodes: navigation_nodes, session: session
     self.build_menu_node
     self.setup_back_nodes
   end
 
-  def build_options_nodes navigation_nodes:
+  def build_options_nodes navigation_nodes:, session:
   end
 
   def build_menu_node

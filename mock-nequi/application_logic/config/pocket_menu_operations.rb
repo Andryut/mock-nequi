@@ -3,9 +3,9 @@ module PocketsOperations
   class ListOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
-        user = Session.current_user
-        pocket_accounts = user.pocket_accounts
+      @action_proc = Proc.new do |inputed_data, session|
+        user = session.current_user
+        pocket_accounts = user.pockets
         pocket_accounts.each do |pocket_account|
           puts 'Name: ' + pocket_account.name
           puts 'Balance: $%0.2f' % pocket_account.amount_money
@@ -13,10 +13,11 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       @operation_node = operation_node_builder.build
     end
   end
@@ -32,10 +33,10 @@ module PocketsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          user = Session.current_user
-          user.create_pocket(name: inputed_data[:name])
+          user = session.current_user
+          user.add_pocket(name: inputed_data[:name])
           puts 'Pocket created correctly'
         rescue => exception
           puts exception.message
@@ -43,10 +44,11 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @pocket_name_view
       @operation_node = operation_node_builder.build
     end
@@ -63,9 +65,9 @@ module PocketsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          pockets_dataset = Session.current_user.pockets_dataset
+          pockets_dataset = session.current_user.pockets_dataset
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             pocket.delete
@@ -80,10 +82,11 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @pocket_name_view
       @operation_node = operation_node_builder.build
     end
@@ -105,9 +108,9 @@ module PocketsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          pockets_dataset = Session.current_user.pockets_dataset
+          pockets_dataset = session.current_user.pockets_dataset
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             pocket.deposit_money(amount: inputed_data[:amount].to_f)
@@ -121,7 +124,7 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
       pocket_name_view_builder.with_validation expression: //
@@ -130,6 +133,8 @@ module PocketsOperations
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
+      operation_node_builder.add_input view: @pocket_name_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -138,6 +143,11 @@ module PocketsOperations
   class WithdrawalOP < OperationLeaf
 
     def build_input_views
+      pocket_name_view_builder = InputViewBuilder.new
+      pocket_name_view_builder.with_petition "Enter the pocket name"
+      pocket_name_view_builder.with_validation expression: //
+      pocket_name_view_builder.with_hash key: :name
+      @pocket_name_view = pocket_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
       amount_view_builder.with_petition "Enter the amount to be withdrawn"
       amount_view_builder.with_validation expression: //
@@ -146,9 +156,9 @@ module PocketsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          pockets_dataset = Session.current_user.pockets_dataset
+          pockets_dataset = session.current_user.pockets_dataset
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             pocket.withdrawn_money(amount: inputed_data[:amount].to_f)
@@ -162,10 +172,12 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
+      operation_node_builder.add_input view: @pocket_name_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -192,9 +204,9 @@ module PocketsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          pockets_dataset = Session.current_user.pockets_dataset
+          pockets_dataset = session.current_user.pockets_dataset
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             Movement.createTransfer transmitter_account:pocket, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
@@ -208,10 +220,12 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
+      operation_node_builder.add_input view: @pocket_name_view
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build

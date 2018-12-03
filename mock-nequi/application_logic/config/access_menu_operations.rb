@@ -18,10 +18,10 @@ module AccessOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes, session|
         begin 
-          Session.current_user = User.login(email: inputed_data[:email], password: inputed_data[:password])
-          puts 'welcome '+ Session.current_user.name
+          session.login(email: inputed_data[:email], password: inputed_data[:password])
+          puts 'Welcome '+ session.current_user.name
           navigation_nodes[:main_menu].play
         rescue => exception
           puts exception.message
@@ -29,12 +29,14 @@ module AccessOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @password_view
+      operation_node_builder.set_dynamic
       @operation_node = operation_node_builder.build
     end
   end
@@ -60,11 +62,11 @@ module AccessOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes, session|
         begin 
-          Session.current_user = User.create(name: inputed_data[:name], email: inputed_data[:email], password: inputed_data[:password])
+          session.create_and_login(name: inputed_data[:name], email: inputed_data[:email], password: inputed_data[:password])
           puts 'Congratulations, you have successfully registered'
-          puts 'Welcome '+ Session.current_user
+          puts 'Welcome '+ session.current_user
           navigation_nodes[:main_menu].play
         rescue => exception
           puts exception.message
@@ -72,13 +74,15 @@ module AccessOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @name_view
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @password_view
+      operation_node_builder.set_dynamic
       @operation_node = operation_node_builder.build
     end
   end
