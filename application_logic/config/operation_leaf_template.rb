@@ -2,10 +2,10 @@ class OperationLeaf
 
   attr_reader :operation_node
 
-  def initialize model_objects:
+  def initialize navigation_nodes:
     self.build_input_views
     self.setup_action
-    self.build_operation_node model_objects: model_objects
+    self.build_operation_node navigation_nodes: navigation_nodes
   end
 
   def build_input_views
@@ -14,7 +14,7 @@ class OperationLeaf
   def setup_action
   end
 
-  def build_operation_node model_objects:
+  def build_operation_node navigation_nodes:
   end
 
   def setup_back node:

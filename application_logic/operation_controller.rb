@@ -1,6 +1,6 @@
 class OperationController
 
-  attr_writer :back_node, :model_objects
+  attr_writer :back_node, :navigation_nodes
 
   def initialize action_proc:
     @action = action_proc
@@ -8,7 +8,7 @@ class OperationController
 
   def execute input:
     filled_form = input
-    @action.call filled_form, @model_objects
+    @action.call filled_form, @navigation_nodes
     @back_node.play
   end
 end

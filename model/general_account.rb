@@ -27,7 +27,7 @@ class GeneralAccount < Sequel::Model(DB[:accounts].where(type: Account::general_
         raise 'The account does not contain sufficient funds.'
       end
       unless transfer
-        Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::entry_type
+        Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::withdrawal_type
       end
       self.refresh
     else

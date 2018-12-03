@@ -3,14 +3,16 @@ module MainOperations
   class CheckAvailableOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        account = Session.current_user.general_account
+        puts '$%0.2f' % account.amount_money
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       @operation_node = operation_node_builder.build
     end
   end
@@ -18,14 +20,15 @@ module MainOperations
   class CheckTotalOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        puts '$%0.2f' % Session.current_user.total_money
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       @operation_node = operation_node_builder.build
     end
   end
@@ -41,14 +44,22 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          account = user.general_account
+          account.deposit_money(amount: inputed_data[:amount].to_f)
+          puts 'Money deposited correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -65,14 +76,22 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          account = user.general_account
+          account.withdrawn_money(amount: inputed_data[:amount].to_f)
+          puts 'Money withdrawn correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -94,14 +113,22 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          account = user.general_account
+          Movement.createTransfer transmitter_account:account, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
+          puts 'Money sent correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
@@ -119,14 +146,53 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        user = Session.current_user
+        account = user.general_account
+        max = inputed_data[:quantity].to_i
+
+        transaction_movements = account.transaction_movements
+        if transaction_movements.length > 0 and max > 0
+          puts 'TRANSACTIONS:' 
+        else
+          puts 'There are no transactions to show'
+        end
+        puts ''
+        count = 0
+        transaction_movements.each do |transaction_movement|
+          break unless count < max
+          transaction = transaction_movement.transaction
+          puts ' Date: ' + transaction_movement.date.to_s
+          puts ' Amount: $%0.2f' % transaction_movement.amount_money
+          puts ' Transaction type: ' + transaction.type
+          puts ''
+          count += 1
+        end
+        
+        transfer_movements = account.transfer_movements
+        if transfer_movements.length > 0 and max > 0
+          puts 'TRANSFERS:' 
+        else
+          puts 'There are no transfers to show'
+        end
+        puts ''
+        count = 0
+        transfer_movements.each do |transfer_movement|
+          break unless count < max
+          transfer = transfer_movement.transfer
+          puts ' Date: ' + transaction_movement.date.to_s
+          puts ' Amount: $%0.2f' % transaction_movement.amount_money
+          puts ' Receiver ' + transfer.receiver.email
+          puts ''
+          count += 1
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @quantity_view
       @operation_node = operation_node_builder.build
     end

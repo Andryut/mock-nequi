@@ -18,14 +18,21 @@ module AccessOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin 
+          Session.current_user = User.login(email: inputed_data[:email], password: inputed_data[:password])
+          puts 'welcome '+ Session.current_user.name
+          navigation_nodes[:main_menu].play
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @password_view
       @operation_node = operation_node_builder.build
@@ -53,14 +60,22 @@ module AccessOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin 
+          Session.current_user = User.create(name: inputed_data[:name], email: inputed_data[:email], password: inputed_data[:password])
+          puts 'Congratulations, you have successfully registered'
+          puts 'Welcome '+ Session.current_user
+          navigation_nodes[:main_menu].play
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @name_view
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @password_view

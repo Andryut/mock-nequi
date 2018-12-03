@@ -3,14 +3,16 @@ module MattressOperations
   class CheckAvailableOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        mattress = Session.current_user.mattress
+        puts '$%0.2f' % mattress.amount_money
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       @operation_node = operation_node_builder.build
     end
   end
@@ -26,14 +28,22 @@ module MattressOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          mattress = user.mattress
+          mattress.deposit_money(amoutn: inputed_data[:amount].to_f)
+          puts 'Money deposited correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -50,14 +60,22 @@ module MattressOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, model_objects|
+      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+        begin
+          user = Session.current_user
+          mattress = user.mattress
+          mattress.withdrawn_money(amount: inputed_data[:amount].to_f)
+          puts 'Money withdrawn correctly.'
+        rescue => exception
+          puts exception.message
+        end
       end
     end
 
-    def build_operation_node model_objects:
+    def build_operation_node navigation_nodes:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model objects: model_objects
+      operation_node_builder.add_model nodes: navigation_nodes
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
