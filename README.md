@@ -12,7 +12,7 @@
   ```
 ##### Linus & Mac
   ```
-  gem inst tiny_tds 
+  gem install tiny_tds 
   gem install sequel
   ```
 #### Step 3: Clone project
