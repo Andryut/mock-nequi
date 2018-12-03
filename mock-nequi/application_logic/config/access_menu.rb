@@ -2,7 +2,7 @@ require_relative 'menu_tree_template.rb'
 
 class AccessMenu < MenuTree
 
-  def build_options_nodes navigation_nodes:, session: 
+  def build_options_nodes navigation_nodes:, session:
     @main_menu = MainMenu.new navigation_nodes: navigation_nodes, session: session
     navigation_nodes.merge!({:main_menu => @main_menu})
     @sign_in_op = AccessOperations::SignInOP.new navigation_nodes: navigation_nodes, session: session
@@ -19,6 +19,6 @@ class AccessMenu < MenuTree
   def setup_back_nodes
     @sign_in_op.setup_back node: @menu_node
     @sign_up_op.setup_back node: @menu_node
-    @main_menu.setup_menu_back text: "Sign out", node: @menu_node
+    @main_menu.setup_menu_back text: "Sign out", node: nil
   end
 end
