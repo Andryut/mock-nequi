@@ -3,9 +3,9 @@ module GoalsOperations
   class ListOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
-        user = Session.current_user
-        goal_coffers = user.goal_coffers
+      @action_proc = Proc.new do |inputed_data, session|
+        user = session.current_user
+        goal_coffers = user.goals
         goal_coffers.each do |goal_coffer|
           goal = goal_coffers.goal
           puts 'Name: ' + goal_coffer.name
@@ -19,10 +19,11 @@ module GoalsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       @operation_node = operation_node_builder.build
     end
   end
@@ -48,10 +49,10 @@ module GoalsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          user = Session.current_user
-          user.create_goal(name: inputed_data[:name], total_amount: inputed_data[:amount].to_f, duration_in_days: inputed_data[:days].to_i)
+          user = session.current_user
+          user.add_goal(name: inputed_data[:name], total_amount: inputed_data[:amount].to_f, duration_in_days: inputed_data[:days].to_i)
           puts 'Goal created correctly'
         rescue => exception
           puts exception.message
@@ -59,10 +60,11 @@ module GoalsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @goal_name_view
       operation_node_builder.add_input view: @amount_view
       operation_node_builder.add_input view: @date_view
@@ -81,9 +83,9 @@ module GoalsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          goals_dataset = Session.current_user.goals_dataset
+          goals_dataset = session.current_user.goals_dataset
           goal = goals_dataset[name: inputed_data[:name]]
           unless goal.nil?
             goal.close
@@ -98,10 +100,11 @@ module GoalsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @goal_name_view
       @operation_node = operation_node_builder.build
     end
@@ -123,9 +126,9 @@ module GoalsOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          goals_dataset = Session.current_user.goals_dataset
+          goals_dataset = session.current_user.goals_dataset
           goal = goals_dataset[name: inputed_data[:name]]
           unless goal.nil?
             goal.deposit_money(amount: inputed_data[:amount])
@@ -139,10 +142,11 @@ module GoalsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @goal_name_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
