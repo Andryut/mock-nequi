@@ -20,7 +20,7 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the goal name"
-      goal_name_view_builder.with_validation expr.ession: //
+      goal_name_view_builder.with_validation expression: //
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
