@@ -1,3 +1,5 @@
+load 'dependencies.rb'
+
 class BankSystem
 
   def initialize
