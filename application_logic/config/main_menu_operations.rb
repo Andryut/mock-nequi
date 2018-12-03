@@ -4,6 +4,8 @@ module MainOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, model_objects|
+        account = model_objects[:current_user].general_account
+        puts '$%0.2f' % account.ammount_money
       end
     end
 
@@ -19,6 +21,7 @@ module MainOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, model_objects|
+        puts '$%0.2f' % model_objects[:current_user].total_money
       end
     end
 
