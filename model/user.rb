@@ -61,7 +61,7 @@ class User < Sequel::Model
       account = Account[pocket.id]
       account.update(active: false)
 
-      self.general_account.deposit_money amount: amount_money
+      self.general_account.deposit_money amount: amount_money, transfer: true
 
       pocket = nil
     end
@@ -72,7 +72,7 @@ class User < Sequel::Model
       coffer = Coffer[goalCoffer.id]
       coffer.update(active: false)
 
-      self.general_account.deposit_money amount: amount_money
+      self.general_account.deposit_money amount: amount_money, transfer: true
 
       goalCoffer = nil
     end

@@ -6,13 +6,9 @@ class GoalCoffer < Sequel::Model(DB[:coffers].where(type: Coffer::goal_type).whe
     def deposit_money amount:
         if amount > 0
             account = self.owner.general_account
-            available_money = account.amount_money
-            if available_money >= amount
-                Account[account.id].update(amount_money: available_money - amount)
-                Coffer[self.id].update(amount_money: self.amount_money + amount)
-            else
-                raise 'The account does not contain sufficient funds.'
-            end
+            account.withdrawn_money(ammount: amount, transfer: true)
+            coffer = Coffer[self.id]
+            coffer.update(amount_money: coffer.amount_money + amount)
         else
             raise 'The amount to be deposit must be positive'
         end
@@ -20,9 +16,8 @@ class GoalCoffer < Sequel::Model(DB[:coffers].where(type: Coffer::goal_type).whe
     
     def close
         account = self.owner.general_account
-        available_money = self.amount_money
         Coffer[self.id].update(amount_money: 0, active: false)
-        Account[account.id].update(amount_money: account.amount_money + available_money)
+        account.deposit_money(ammount: self.amount_money, transfer: true)
     end
 
     def status
