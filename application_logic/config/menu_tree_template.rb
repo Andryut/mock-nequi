@@ -17,6 +17,10 @@ class MenuTree
   def setup_back_nodes
   end
 
+  def play
+    @menu_node.play
+  end
+
   def setup_menu_back text:, node:
     @menu_node.view.back_option = text
     @menu_node.controller.back_option = node
