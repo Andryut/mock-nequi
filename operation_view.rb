@@ -6,7 +6,7 @@ class OperationView
 
   def show
     form = Hash.new
-    input_views.each do |input_view|
+    @input_views.each do |input_view|
       form.merge!(input_view.show)
     end
     return form

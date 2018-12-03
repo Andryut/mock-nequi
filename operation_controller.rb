@@ -4,10 +4,10 @@ class OperationController
 
   def initialize action_proc:
     @action = action_proc
-    yield if block_given?
   end
 
-  def execute filled_form:
+  def execute input:
+    filled_form = input
     @action.call filled_form, @model_objects
     @back_node.play
   end

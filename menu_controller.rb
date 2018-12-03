@@ -6,7 +6,8 @@ class MenuController
     yield if block_given?
   end
 
-  def execute selected_option:
+  def execute input:
+    selected_option = input
     if selected_option == 0 then
       go_back
     else
