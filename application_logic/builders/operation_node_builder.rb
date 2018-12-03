@@ -1,7 +1,7 @@
 class OperationNodeBuilder
 
   def initialize
-    @model_objects = Hash.new
+    @navigation_nodes = Hash.new
     @input_views = Array.new
     @back_node = nil
   end
@@ -10,8 +10,8 @@ class OperationNodeBuilder
     @input_views << view
   end
 
-  def add_model objects:
-    @model_objects.merge!(objects)
+  def add_model nodes:
+    @navigation_nodes.merge!(nodes)
   end
 
   def with_action proc:
@@ -25,7 +25,7 @@ class OperationNodeBuilder
   def build
     view = OperationView.new input_views: @input_views
     controller = OperationController.new action_proc: @action_proc
-    controller.model_objects = @model_objects
+    controller.navigation_nodes = @navigation_nodes
     controller.back_node = @back_node
     return NavigationNode.new view: view, controller: controller
   end
