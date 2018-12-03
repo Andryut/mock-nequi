@@ -1,15 +1,15 @@
 class MainMenu < MenuTree
 
-  def build_options_nodes model_objects:
-    @check_available_op = MainOperations::CheckAvailableOP.new model_objects: model_objects
-    @check_total_op = MainOperations::CheckTotalOP.new model_objects: model_objects
-    @deposit_op = MainOperations::DepositOP.new model_objects: model_objects
-    @withdrawals_op = MainOperations::WithdrawalOP.new model_objects: model_objects
-    @send_op = MainOperations::SendOP.new model_objects: model_objects
-    @check_transactions_op = MainOperations::CheckTransactionsOP.new model_objects: model_objects
-    @mattress_menu = MattressMenu.new model_objects: model_objects
-    @pocket_menu = PocketMenu.new model_objects: model_objects
-    @goal_menu = GoalMenu.new model_objects: model_objects
+  def build_options_nodes navigation_nodes:
+    @check_available_op = MainOperations::CheckAvailableOP.new navigation_nodes: navigation_nodes
+    @check_total_op = MainOperations::CheckTotalOP.new navigation_nodes: navigation_nodes
+    @deposit_op = MainOperations::DepositOP.new navigation_nodes: navigation_nodes
+    @withdrawals_op = MainOperations::WithdrawalOP.new navigation_nodes: navigation_nodes
+    @send_op = MainOperations::SendOP.new navigation_nodes: navigation_nodes
+    @check_transactions_op = MainOperations::CheckTransactionsOP.new navigation_nodes: navigation_nodes
+    @mattress_menu = MattressMenu.new navigation_nodes: navigation_nodes
+    @pocket_menu = PocketMenu.new navigation_nodes: navigation_nodes
+    @goal_menu = GoalMenu.new navigation_nodes: navigation_nodes
   end
 
   def build_menu_node

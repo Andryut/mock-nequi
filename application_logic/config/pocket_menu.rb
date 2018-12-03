@@ -1,12 +1,12 @@
 class PocketMenu < MenuTree
 
-  def build_options_nodes model_objects:
-    @list_op = PocketsOperations::ListOP.new model_objects: model_objects
-    @create_op = PocketsOperations::CreateOP.new model_objects: model_objects
-    @delete_op = PocketsOperations::DeleteOP.new model_objects: model_objects
-    @deposit_op = PocketsOperations::DepositOP.new model_objects: model_objects
-    @withdrawals_op = PocketsOperations::WithdrawalOP.new model_objects: model_objects
-    @send_op = PocketsOperations::SendOP.new model_objects: model_objects
+  def build_options_nodes navigation_nodes:
+    @list_op = PocketsOperations::ListOP.new navigation_nodes: navigation_nodes
+    @create_op = PocketsOperations::CreateOP.new navigation_nodes: navigation_nodes
+    @delete_op = PocketsOperations::DeleteOP.new navigation_nodes: navigation_nodes
+    @deposit_op = PocketsOperations::DepositOP.new navigation_nodes: navigation_nodes
+    @withdrawals_op = PocketsOperations::WithdrawalOP.new navigation_nodes: navigation_nodes
+    @send_op = PocketsOperations::SendOP.new navigation_nodes: navigation_nodes
   end
 
   def build_menu_node

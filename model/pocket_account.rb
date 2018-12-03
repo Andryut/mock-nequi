@@ -27,12 +27,21 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
         raise 'The pocket does not contain sufficient funds.'
       end
       unless transfer
-        Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::entry_type
+        Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::withdrawal_type
       end
       self.refresh
     else
       raise 'The pocket to be withdrawn must be positive'
     end
+  end
+
+  def delete
+    account = self.owner.general_account
+
+    Account[self.id].update(amount_money: 0, active: false)
+    account.deposit_money(ammount: self.amount_money, transfer: true)
+
+    self.owner.refresh
   end
   
 end 
