@@ -1,3 +1,4 @@
+require_relative 'view.rb'
 require_relative 'menu_view.rb'
 require_relative 'navigation_node.rb'
 require_relative 'operation_controller.rb'
