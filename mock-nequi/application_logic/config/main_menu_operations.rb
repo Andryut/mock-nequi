@@ -3,16 +3,17 @@ module MainOperations
   class CheckAvailableOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
-        account = Session.current_user.general_account
+      @action_proc = Proc.new do |inputed_data, session|
+        account = session.current_user.general_account
         puts '$%0.2f' % account.amount_money
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       @operation_node = operation_node_builder.build
     end
   end
@@ -20,15 +21,16 @@ module MainOperations
   class CheckTotalOP < OperationLeaf
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
-        puts '$%0.2f' % Session.current_user.total_money
+      @action_proc = Proc.new do |inputed_data, session|
+        puts '$%0.2f' % session.current_user.total_money
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       @operation_node = operation_node_builder.build
     end
   end
@@ -44,9 +46,9 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          user = Session.current_user
+          user = session.current_user
           account = user.general_account
           account.deposit_money(amount: inputed_data[:amount].to_f)
           puts 'Money deposited correctly.'
@@ -56,10 +58,11 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -76,9 +79,9 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          user = Session.current_user
+          user = session.current_user
           account = user.general_account
           account.withdrawn_money(amount: inputed_data[:amount].to_f)
           puts 'Money withdrawn correctly.'
@@ -88,10 +91,11 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
     end
@@ -113,9 +117,9 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
+      @action_proc = Proc.new do |inputed_data, session|
         begin
-          user = Session.current_user
+          user = session.current_user
           account = user.general_account
           Movement.createTransfer transmitter_account:account, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
           puts 'Money sent correctly.'
@@ -125,10 +129,11 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @email_view
       operation_node_builder.add_input view: @amount_view
       @operation_node = operation_node_builder.build
@@ -146,8 +151,8 @@ module MainOperations
     end
 
     def setup_action
-      @action_proc = Proc.new do |inputed_data, navigation_nodes|
-        user = Session.current_user
+      @action_proc = Proc.new do |inputed_data, session|
+        user = session.current_user
         account = user.general_account
         max = inputed_data[:quantity].to_i
 
@@ -189,10 +194,11 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:
+    def build_operation_node navigation_nodes:, session:
       operation_node_builder = OperationNodeBuilder.new
       operation_node_builder.with_action proc: @action_proc
       operation_node_builder.add_model nodes: navigation_nodes
+      operation_node_builder.add_session session: session
       operation_node_builder.add_input view: @quantity_view
       @operation_node = operation_node_builder.build
     end
