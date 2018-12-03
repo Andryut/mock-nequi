@@ -1,9 +1,5 @@
 class InputViewBuilder
 
-  def initialize
-    yield if block_given?
-  end
-
   def with_petition petition
     @petition = petition
   end

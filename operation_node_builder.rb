@@ -4,7 +4,6 @@ class OperationNodeBuilder
     @model_objects = Hash.new
     @input_views = Array.new
     @back_node = nil
-    yield if block_given?
   end
 
   def add_input view:
@@ -25,10 +24,9 @@ class OperationNodeBuilder
 
   def build
     view = OperationView.new input_views: @input_views
-    controller = OperationController.new action_proc: @action_proc do
-      self.model_objects = @model_objects
-      self.back_node = @back_node
-    end
+    controller = OperationController.new action_proc: @action_proc
+    controller.model_objects = @model_objects
+    controller.back_node = @back_node
     return NavigationNode.new view: view, controller: controller
   end
 end
