@@ -2,11 +2,11 @@ require_relative 'menu_tree_template.rb'
 
 class AccessMenu < MenuTree
 
-  def build_options_nodes model_objects:
-    @main_menu = MainMenu.new model_objects: model_objects
-    model_objects.merge!({:main_menu => @main_menu})
-    @sign_in_op = AccessOperations::SignInOP.new model_objects: model_objects
-    @sign_up_op = AccessOperations::SignUpOP.new model_objects: model_objects
+  def build_options_nodes navigation_nodes:
+    @main_menu = MainMenu.new navigation_nodes: navigation_nodes
+    navigation_nodes.merge!({:main_menu => @main_menu})
+    @sign_in_op = AccessOperations::SignInOP.new navigation_nodes: navigation_nodes
+    @sign_up_op = AccessOperations::SignUpOP.new navigation_nodes: navigation_nodes
   end
 
   def build_menu_node
