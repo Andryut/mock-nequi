@@ -54,8 +54,8 @@ class UIValidator
   end
 
   def self.name value
-    if /[0-9]/ =~ value then
-      Error.new(message: "The names can't contain numbers") { |error| error.show }
+    if /[^a-zA-Z]/ =~ value then
+      Error.new(message: "The names must be compossed uniquely by letters") { |error| error.show }
       return false
     end
     return true
