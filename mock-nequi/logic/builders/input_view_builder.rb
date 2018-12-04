@@ -1,18 +1,20 @@
 class InputViewBuilder
 
-  def with_petition petition
+  attr_accessor :petition, :field_type, :key
+
+  def initialize 
+    @petition = 'Enter a value'
+    @field_type = :text
+    @key = :name
+  end
+
+  def initialize petition:, field_type: :text, key:
     @petition = petition
-  end
-
-  def with_validation method_name:
-    @validation_method_name = method_name
-  end
-
-  def with_hash key:
+    @field_type = field_type
     @key = key
   end
 
   def build
-    return InputView.new petition: @petition, validation_method_name: @validation_method_name, key: @key
+    return InputView.new petition: @petition, field_type: @field_type, key: @key
   end
 end

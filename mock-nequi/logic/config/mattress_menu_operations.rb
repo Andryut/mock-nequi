@@ -26,7 +26,7 @@ module MattressOperations
     def build_input_views
       amount_view_builder = InputViewBuilder.new
       amount_view_builder.with_petition "Enter the amount to be deposited"
-      amount_view_builder.with_validation method_name: :number
+      amount_view_builder.with_validation field_type: :number
       amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
     end
@@ -58,7 +58,7 @@ module MattressOperations
     def build_input_views
       amount_view_builder = InputViewBuilder.new
       amount_view_builder.with_petition "Enter the amount to be withdrawn"
-      amount_view_builder.with_validation method_name: :number
+      amount_view_builder.with_validation field_type: :number
       amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
     end

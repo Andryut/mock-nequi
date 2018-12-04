@@ -1,6 +1,6 @@
-class UIValidator
+class InputValidator
 
-  def self.is_a_valid type_of_validation, value
+  def self.is_valid field_type:, value:
     begin
       return route type_of_validation, value
     rescue

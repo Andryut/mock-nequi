@@ -3,16 +3,15 @@ module AccessOperations
   class SignInOP < OperationLeaf
 
     def build_input_views
-      email_view_builder = InputViewBuilder.new
-      email_view_builder.with_petition "Enter your email"
-      email_view_builder.with_validation method_name: :email
-      email_view_builder.with_hash key: :email
-      @email_view = email_view_builder.build
-      password_view_builder = InputViewBuilder.new
-      password_view_builder.with_petition "Enter your password"
-      password_view_builder.with_validation method_name: :password
-      password_view_builder.with_hash key: :password
-      @password_view = password_view_builder.build
+      @input_views = Array.new
+
+      petition = "Enter your email"
+      email_view_builder = InputViewBuilder.new petition: petition, field_type: :email, key: :email
+      @input_views << email_view_builder.build
+
+      petition = "Enter your password"
+      password_view_builder = InputViewBuilder.new petition: petition, field_type: :password,  key: :password
+      @input_views << password_view_builder.build
     end
 
     def setup_action
@@ -27,13 +26,9 @@ module AccessOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @email_view
-      operation_node_builder.add_input view: @password_view
-      operation_node_builder.set_dynamic
+      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session, dynamic: true)
+        
       @operation_node = operation_node_builder.build
     end
   end
@@ -41,21 +36,19 @@ module AccessOperations
   class SignUpOP < OperationLeaf
 
     def build_input_views
-      name_view_builder = InputViewBuilder.new
-      name_view_builder.with_petition "Enter your name"
-      name_view_builder.with_validation method_name: :name
-      name_view_builder.with_hash key: :name
-      @name_view = name_view_builder.build
-      email_view_builder = InputViewBuilder.new
-      email_view_builder.with_petition "Enter your email"
-      email_view_builder.with_validation method_name: :email
-      email_view_builder.with_hash key: :email
-      @email_view = email_view_builder.build
-      password_view_builder = InputViewBuilder.new
-      password_view_builder.with_petition "Enter your password"
-      password_view_builder.with_validation method_name: :password
-      password_view_builder.with_hash key: :password
-      @password_view = password_view_builder.build
+      @input_views = Array.new
+
+      petition = "Enter your name"
+      name_view_builder = InputViewBuilder.new petition: petition, field_type: :name, key: :name
+      @input_views << name_view_builder.build
+
+      petition = "Enter your email"
+      email_view_builder = InputViewBuilder.new petition: petition, field_type: :email, key: :email
+      @input_views <<  email_view_builder.build
+
+      petition = "Enter your password"
+      password_view_builder = InputViewBuilder.new petition: petition, field_type: :password, key: :password
+      @input_views <<  password_view_builder.build
     end
 
     def setup_action
@@ -70,14 +63,8 @@ module AccessOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @name_view
-      operation_node_builder.add_input view: @email_view
-      operation_node_builder.add_input view: @password_view
-      operation_node_builder.set_dynamic
+      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session, dynamic: true)
       @operation_node = operation_node_builder.build
     end
   end

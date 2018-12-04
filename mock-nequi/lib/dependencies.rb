@@ -30,7 +30,7 @@ require_relative '../view/transfer_report.rb'
 require_relative '../view/error_view.rb'
 require_relative '../view/menu_view.rb'
 
-require_relative '../logic/ui_validation.rb'
+require_relative '../logic/input_validator.rb'
 require_relative '../logic/navigation_node.rb'
 require_relative '../logic/operation_controller.rb'
 require_relative '../logic/input_view.rb'

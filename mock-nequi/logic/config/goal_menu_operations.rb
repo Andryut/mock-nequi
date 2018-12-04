@@ -26,10 +26,8 @@ module GoalsOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
+      operation_node_builder = OperationNodeBuilder.new(action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session)
       @operation_node = operation_node_builder.build
     end
   end
@@ -37,21 +35,19 @@ module GoalsOperations
   class CreateOP < OperationLeaf
 
     def build_input_views
-      goal_name_view_builder = InputViewBuilder.new
-      goal_name_view_builder.with_petition "Enter the goal name"
-      goal_name_view_builder.with_validation method_name: :text
-      goal_name_view_builder.with_hash key: :name
-      @goal_name_view = goal_name_view_builder.build
-      amount_view_builder = InputViewBuilder.new
-      amount_view_builder.with_petition "Enter the target money amount"
-      amount_view_builder.with_validation method_name: :number
-      amount_view_builder.with_hash key: :amount
-      @amount_view = amount_view_builder.build
-      date_view_builder = InputViewBuilder.new
-      date_view_builder.with_petition "Enter the maximum number of days to complete the goal"
-      date_view_builder.with_validation method_name: :day
-      date_view_builder.with_hash key: :days
-      @date_view = date_view_builder.build
+      @input_views = Array.new
+
+      petition = "Enter the goal name"
+      goal_name_view_builder = InputViewBuilder.new petition: petition, key: :name
+      @input_views << goal_name_view_builder.build
+
+      petition = "Enter the target money amount"
+      amount_view_builder = InputViewBuilder.new petition: petition, field_type: :number, key: :amount
+      @input_views << amount_view_builder.build
+
+      petition = "Enter the maximum number of days to complete the goal"
+      date_view_builder = InputViewBuilder.new petition: petition, field_type: :day, key: :days
+      @input_views << date_view_builder.build
     end
 
     def setup_action
@@ -66,13 +62,8 @@ module GoalsOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @goal_name_view
-      operation_node_builder.add_input view: @amount_view
-      operation_node_builder.add_input view: @date_view
+      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session)
       @operation_node = operation_node_builder.build
     end
   end
@@ -80,11 +71,11 @@ module GoalsOperations
   class CloseOP < OperationLeaf
 
     def build_input_views
-      goal_name_view_builder = InputViewBuilder.new
-      goal_name_view_builder.with_petition "Enter the name of the goal that you wish to close"
-      goal_name_view_builder.with_validation method_name: :text
-      goal_name_view_builder.with_hash key: :name
-      @goal_name_view = goal_name_view_builder.build
+      @input_views = Array.new
+
+      petition = "Enter the name of the goal that you wish to close"
+      goal_name_view_builder = InputViewBuilder.new petition: petition, field_type: :text, key: :name
+      @input_views << goal_name_view_builder.build
     end
 
     def setup_action
@@ -105,11 +96,8 @@ module GoalsOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @goal_name_view
+      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session)
       @operation_node = operation_node_builder.build
     end
   end
@@ -117,16 +105,15 @@ module GoalsOperations
   class DepositOP < OperationLeaf
 
     def build_input_views
-      goal_name_view_builder = InputViewBuilder.new
-      goal_name_view_builder.with_petition "Enter the name of the goal to make a deposit"
-      goal_name_view_builder.with_validation method_name: :text
-      goal_name_view_builder.with_hash key: :name
-      @goal_name_view = goal_name_view_builder.build
-      amount_view_builder = InputViewBuilder.new
-      amount_view_builder.with_petition "Enter the amount to be deposited"
-      amount_view_builder.with_validation method_name: :number
-      amount_view_builder.with_hash key: :amount
-      @amount_view = amount_view_builder.build
+      @input_views = Array.new
+
+      petition = "Enter the name of the goal to make a deposit"
+      goal_name_view_builder = InputViewBuilder.new petition: petition, field_type: :text, key: :name
+      @input_views << goal_name_view_builder.build
+
+      petition = "Enter the amount to be deposited"
+      amount_view_builder = InputViewBuilder.new petition: petition, field_type: :number, key: :amount
+      @input_views << amount_view_builder.build
     end
 
     def setup_action
@@ -146,12 +133,8 @@ module GoalsOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @goal_name_view
-      operation_node_builder.add_input view: @amount_view
+      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session)
       @operation_node = operation_node_builder.build
     end
   end
