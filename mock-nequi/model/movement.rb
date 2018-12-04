@@ -19,13 +19,17 @@ class Movement < Sequel::Model
   end
 
   def self.create_transfer transmitter_account:, amount_money:, receiver_email:
-    reciever = User[email:receiver_email]
-
-    unless reciever.nil?
-      movement = Movement.create(transmitter_account:transmitter_account.id, type: self.transfer_type, amount_money: amount_money)
-      Transfer.create(associated_movement:movement.id, reciever: reciever.id)
-      transmitter_account.withdrawn_money(amount:amount_money, transfer: true)
-      reciever.general_account.deposit_money(amount:amount_money, transfer: true)
+    receiver = User[email:receiver_email]
+    unless receiver.nil?
+      owner_user = transmitter_account.owner
+      unless  receiver.email == owner_user.email
+        movement = Movement.create(transmitter_account:transmitter_account.id, type: self.transfer_type, amount_money: amount_money)
+        Transfer.create(associated_movement:movement.id, receiver: receiver.id)
+        transmitter_account.withdrawn_money(amount:amount_money, transfer: true)
+        receiver.general_account.deposit_money(amount:amount_money, transfer: true)
+      else
+        raise 'You can not send money to yourself.'
+      end
     else
       raise 'The entered email has not been found in the system.'
     end

@@ -48,12 +48,10 @@ class User < Sequel::Model
     
     def add_goal name:, total_amount:, duration_in_days:
       Coffer.create_goal(owner_id: self.id, name: name, total_amount: total_amount, duration_in_days: duration_in_days)
-      self.refresh
     end
 
     def add_pocket name:
       Account.create_pocket(owner_id: self.id, name: name)
-      self.refresh
     end
     
     def total_money

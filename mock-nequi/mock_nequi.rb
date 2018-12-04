@@ -1,4 +1,4 @@
-require_relative 'application_logic/bank_system.rb'
+require_relative 'lib/dependencies.rb'
 
 mock_nequi = BankSystem.new
 

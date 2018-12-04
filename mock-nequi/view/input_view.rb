@@ -1,8 +1,8 @@
 class InputView < View
 
-  def initialize petition:, validation_method_name:, key:
+  def initialize petition:, field_type:, key:
     @petition = petition
-    @validation_method_name = validation_method_name
+    @field_type = field_type
     @key = key
   end
 
@@ -16,7 +16,7 @@ class InputView < View
 
   def get_input
     input = gets.chomp
-    if UIValidator.is_a_valid @validation_method_name, input
+    if InputValidator.is_valid? field_type: @field_type, value: input
       return {@key.to_sym => input}
     else
       self.show

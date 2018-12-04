@@ -1,5 +1,7 @@
 class OperationNodeBuilder
 
+  attr_writer :dynamic
+
   def initialize
     @navigation_nodes = Hash.new
     @input_views = Array.new
@@ -8,24 +10,21 @@ class OperationNodeBuilder
     @dynamic = false
   end
 
-  def set_dynamic
-    @dynamic = true
+  def initialize input_views:, action_proc:, navigation_nodes:, session:, dynamic: false, back_node: nil
+    @input_views = input_views
+    @action_proc = action_proc
+    @navigation_nodes = navigation_nodes
+    @session = session
+    @dynamic = dynamic
+    @back_node = back_node
   end
 
   def add_input view:
     @input_views << view
   end
 
-  def add_model nodes:
-    @navigation_nodes.merge!(nodes)
-  end
-
-  def add_session session:
+  def change_session session:
     @session = session
-  end
-
-  def with_action proc:
-    @action_proc = proc
   end
 
   def with_back node:

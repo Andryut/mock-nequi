@@ -1,5 +1,3 @@
-require_relative 'dependencies.rb'
-
 class BankSystem
 
   def initialize

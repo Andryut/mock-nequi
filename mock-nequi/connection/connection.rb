@@ -1,6 +1,3 @@
-require 'sequel'
-require 'tiny_tds'
-
 db_connection_params = {
   :adapter => 'tinytds',
   :host => 'mock-nequi-server.database.windows.net', # IP or hostname 

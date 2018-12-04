@@ -11,7 +11,6 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
       unless transfer
         Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::entry_type
       end
-      self.refresh
     else
       raise 'The pocket to be deposit must be positive'
     end
@@ -29,7 +28,6 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
       unless transfer
         Movement.create_transaction transmitter_account_id: self.id, amount_money: amount, transaction_type: Transaction::withdrawal_type
       end
-      self.refresh
     else
       raise 'The pocket to be withdrawn must be positive'
     end
@@ -40,8 +38,6 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
 
     Account[self.id].update(amount_money: 0, active: false)
     account.deposit_money(ammount: self.amount_money, transfer: true)
-
-    self.owner.refresh
   end
   
 end 
