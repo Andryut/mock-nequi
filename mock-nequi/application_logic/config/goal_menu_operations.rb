@@ -14,7 +14,8 @@ module GoalsOperations
           puts 'Remaining money: $%0.2f' % (goal.total_amount.to_f - goal_coffer.amount_money.to_f)
           puts 'Status: ' + goal_coffer.status
           puts 'Deadline: ' + goal.deadline.to_s
-          puts ''
+          puts '\nPress enter to continue'
+          gets
         end
       end
     end
@@ -53,9 +54,8 @@ module GoalsOperations
         begin
           user = session.current_user
           user.add_goal(name: inputed_data[:name], total_amount: inputed_data[:amount].to_f, duration_in_days: inputed_data[:days].to_i)
-          puts 'Goal created correctly'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -90,12 +90,11 @@ module GoalsOperations
           unless goal.nil?
             goal.close
             goal = nil
-            puts 'Goal closed correctly'
           else
-            puts 'A goal with the entered name was not found'
+            Error.new(message: 'The goal with the given name was not found') { |error| error.show }
           end
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -132,12 +131,11 @@ module GoalsOperations
           goal = goals_dataset[name: inputed_data[:name]]
           unless goal.nil?
             goal.deposit_money(amount: inputed_data[:amount])
-            puts 'Money deposited correctly.'
           else
-            puts 'A goal with the entered name was not found'
+            Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end

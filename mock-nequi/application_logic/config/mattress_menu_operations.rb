@@ -6,6 +6,8 @@ module MattressOperations
       @action_proc = Proc.new do |inputed_data, session|
         mattress = session.current_user.mattress
         puts '$%0.2f' % mattress.amount_money
+        puts 'Press enter to continue'
+        gets
       end
     end
 
@@ -34,9 +36,8 @@ module MattressOperations
           user = session.current_user
           mattress = user.mattress
           mattress.deposit_money(amoutn: inputed_data[:amount].to_f)
-          puts 'Money deposited correctly.'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -67,9 +68,8 @@ module MattressOperations
           user = session.current_user
           mattress = user.mattress
           mattress.withdrawn_money(amount: inputed_data[:amount].to_f)
-          puts 'Money withdrawn correctly.'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end

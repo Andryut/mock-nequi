@@ -21,10 +21,9 @@ module AccessOperations
       @action_proc = Proc.new do |inputed_data, navigation_nodes, session|
         begin
           session.login(email: inputed_data[:email], password: inputed_data[:password])
-          puts 'Welcome '+ session.current_user.name
           navigation_nodes[:main_menu].play
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -65,11 +64,9 @@ module AccessOperations
       @action_proc = Proc.new do |inputed_data, navigation_nodes, session|
         begin
           session.create_and_login(name: inputed_data[:name], email: inputed_data[:email], password: inputed_data[:password])
-          puts 'Congratulations, you have successfully registered'
-          puts 'Welcome '+ session.current_user
           navigation_nodes[:main_menu].play
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end

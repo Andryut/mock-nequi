@@ -6,6 +6,8 @@ module MainOperations
       @action_proc = Proc.new do |inputed_data, session|
         account = session.current_user.general_account
         puts '$%0.2f' % account.amount_money
+        puts 'Press enter to continue'
+        gets
       end
     end
 
@@ -23,6 +25,8 @@ module MainOperations
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
         puts '$%0.2f' % session.current_user.total_money
+        puts 'Press enter to continue'
+        gets
       end
     end
 
@@ -51,9 +55,8 @@ module MainOperations
           user = session.current_user
           account = user.general_account
           account.deposit_money(amount: inputed_data[:amount].to_f)
-          puts 'Money deposited correctly.'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -84,9 +87,8 @@ module MainOperations
           user = session.current_user
           account = user.general_account
           account.withdrawn_money(amount: inputed_data[:amount].to_f)
-          puts 'Money withdrawn correctly.'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -122,9 +124,8 @@ module MainOperations
           user = session.current_user
           account = user.general_account
           Movement.createTransfer transmitter_account:account, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
-          puts 'Money sent correctly.'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -155,41 +156,8 @@ module MainOperations
         user = session.current_user
         account = user.general_account
         max = inputed_data[:quantity].to_i
-
-        transaction_movements = account.transaction_movements
-        if transaction_movements.length > 0 and max > 0
-          puts 'TRANSACTIONS:'
-        else
-          puts 'There are no transactions to show'
-        end
-        puts ''
-        count = 0
-        transaction_movements.each do |transaction_movement|
-          break unless count < max
-          transaction = transaction_movement.transaction
-          puts ' Date: ' + transaction_movement.date.to_s
-          puts ' Amount: $%0.2f' % transaction_movement.amount_money
-          puts ' Transaction type: ' + transaction.type
-          puts ''
-          count += 1
-        end
-
-        transfer_movements = account.transfer_movements
-        if transfer_movements.length > 0 and max > 0
-          puts 'TRANSFERS:'
-        else
-          puts 'There are no transfers to show'
-        end
-        puts ''
-        count = 0
-        transfer_movements.each do |transfer_movement|
-          break unless count < max
-          transfer = transfer_movement.transfer
-          puts ' Date: ' + transaction_movement.date.to_s
-          puts ' Amount: $%0.2f' % transaction_movement.amount_money
-          puts ' Receiver ' + transfer.receiver.email
-          puts ''
-          count += 1
+        ReportView.new transaction_movements: account.transaction_movements, transfer_movements: account.transfer_movements, limit: max do |report|
+          report.show
         end
       end
     end

@@ -9,6 +9,8 @@ module PocketsOperations
         pocket_accounts.each do |pocket_account|
           puts 'Name: ' + pocket_account.name
           puts 'Balance: $%0.2f' % pocket_account.amount_money
+          puts '\nPress enter to continue'
+          gets
         end
       end
     end
@@ -37,9 +39,8 @@ module PocketsOperations
         begin
           user = session.current_user
           user.add_pocket(name: inputed_data[:name])
-          puts 'Pocket created correctly'
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -72,12 +73,11 @@ module PocketsOperations
           unless pocket.nil?
             pocket.delete
             pocket = nil
-            puts 'Pocket deleted correctly'
           else
-            puts 'A goal with the entered name was not found'
+            Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -114,12 +114,11 @@ module PocketsOperations
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             pocket.deposit_money(amount: inputed_data[:amount].to_f)
-            puts 'Money deposited correctly.'
           else
-            puts 'A goal with the entered name was not found'
+            Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -162,12 +161,11 @@ module PocketsOperations
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             pocket.withdrawn_money(amount: inputed_data[:amount].to_f)
-            puts 'Money withdrawn correctly.'
           else
-            puts 'A goal with the entered name was not found'
+            Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -210,12 +208,11 @@ module PocketsOperations
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
             Movement.createTransfer transmitter_account:pocket, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
-            puts 'Money sent correctly.'
           else
-            puts 'A goal with the entered name was not found'
+            Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end
         rescue => exception
-          puts exception.message
+          Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
@@ -247,42 +244,14 @@ module PocketsOperations
         user = session.current_user
         accounts = user.pockets
         max = inputed_data[:quantity].to_i
+        transaction_movements = Array.new
+        transfer_movements = Array.new
         accounts.each do |account|
-          transaction_movements = account.transaction_movements
-          if transaction_movements.length > 0 and max > 0
-            puts 'TRANSACTIONS:'
-          else
-            puts 'There are no transactions to show'
-          end
-          puts ''
-          count = 0
-          transaction_movements.each do |transaction_movement|
-            break unless count < max
-            transaction = transaction_movement.transaction
-            puts ' Date: ' + transaction_movement.date.to_s
-            puts ' Amount: $%0.2f' % transaction_movement.amount_money
-            puts ' Transaction type: ' + transaction.type
-            puts ''
-            count += 1
-          end
-
-          transfer_movements = account.transfer_movements
-          if transfer_movements.length > 0 and max > 0
-            puts 'TRANSFERS:'
-          else
-            puts 'There are no transfers to show'
-          end
-          puts ''
-          count = 0
-          transfer_movements.each do |transfer_movement|
-            break unless count < max
-            transfer = transfer_movement.transfer
-            puts ' Date: ' + transaction_movement.date.to_s
-            puts ' Amount: $%0.2f' % transaction_movement.amount_money
-            puts ' Receiver ' + transfer.receiver.email
-            puts ''
-            count += 1
-          end
+          transaction_movements.concat(account.transaction_movements)
+          transfer_movements.concat(account.transfer_movements)
+        end
+        ReportView.new transaction_movements: transaction_movements, transfer_movements: transfer_movements, limit: max do |report|
+          report.show
         end
       end
     end

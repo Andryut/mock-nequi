@@ -21,9 +21,7 @@ class UIValidator
 
   def self.email value
     unless /@/ =~ value and /\./ =~ value and (/@/ =~ value) != 0 and (/\./ =~ value) != 0
-      Error.new message: 'Wrong email, introduce a valid email' do |error|
-        error.show
-      end
+      Error.new(message: 'Wrong email, introduce a valid email') { |error| error.show }
       return false
     end
     return true
@@ -32,9 +30,7 @@ class UIValidator
   def self.number value
     value.each_char do |chr|
       unless chr.to_i.to_s == chr
-        Error.new message: "#{value} is not a valid number, introduce a valid number" do |error|
-          error.show
-        end
+        Error.new(message: "#{value} is not a valid number, introduce a valid number") { |error| error.show }
         return false
       end
     end
@@ -48,12 +44,10 @@ class UIValidator
     elsif (/[A-Z]/ =~ value).nil?
       error_cause = "upcase letter"
     elsif (/[0-9]/ =~ value).nil?
-      error_cause = "digit"
+      error_cause = "digit number"
     end
-    unless error_cause = ""
-      Error.new message: "The password must contain almost one #{error_cause} character" do |error|
-        error.show
-      end
+    unless error_cause == ""
+      Error.new(message: "The password must contain almost one #{error_cause} character") { |error| error.show }
       return false
     end
     return true
@@ -61,9 +55,7 @@ class UIValidator
 
   def self.name value
     if /[0-9]/ =~ value then
-      Error.new message: "The names can't contain numbers" do |error|
-        error.show
-      end
+      Error.new(message: "The names can't contain numbers") { |error| error.show }
       return false
     end
     return true
@@ -72,9 +64,7 @@ class UIValidator
   def self.day value
     value.each_char do |chr|
       unless chr.to_i.to_s == chr
-        Error.new message: "#{value} is not a valid number, introduce a valid number" do |error|
-          error.show
-        end
+        Error.new(message: "#{value} is not a valid number, introduce a valid number") { |error| error.show }
         return false
       end
     end
