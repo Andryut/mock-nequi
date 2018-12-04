@@ -19,7 +19,7 @@ class ReceptionsReport < ReportView
                 count += 1
             end
         else
-            puts 'There are no transactions to show'
+            puts 'There are no receptions to show'
         end
     end
 

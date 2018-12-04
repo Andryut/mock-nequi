@@ -7,21 +7,9 @@ module GoalsOperations
         user = session.current_user
         user.refresh
         goal_coffers = user.goals
-        puts 'This is your goal list'
-        puts
-        goal_coffers.each do |goal_coffer|
-          goal = goal_coffers.goal
-          puts 'Name: ' + goal_coffer.name
-          puts 'Total amount: $%0.2f' % goal.total_amount.to_f
-          puts 'Saved money: $%0.2f' % goal_coffer.amount_money.to_f
-          puts 'Remaining money: $%0.2f' % (goal.total_amount.to_f - goal_coffer.amount_money.to_f)
-          puts 'Status: ' + goal_coffer.status
-          puts 'Deadline: ' + goal.deadline.to_s
-          puts
-        end
-        puts 'there are no goals to show' if goal_coffers.length == 0
-        puts 'Press enter to continue'
-        gets
+        
+        goalsReport = GoalsReport.new(element_list: goal_coffers, limit: goal_coffers.length)
+        goalsReport.show
       end
     end
   end
@@ -115,7 +103,7 @@ module GoalsOperations
         end
       end
     end
-    
+
   end
 
 end
