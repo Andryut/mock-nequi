@@ -1,5 +1,3 @@
-require_relative 'menu_tree_template.rb'
-
 class AccessMenu < MenuTree
 
   def build_options_nodes navigation_nodes:, session:

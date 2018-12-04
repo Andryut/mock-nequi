@@ -1,5 +1,3 @@
-require_relative 'operation_leaf_template.rb'
-
 module AccessOperations
 
   class SignInOP < OperationLeaf
