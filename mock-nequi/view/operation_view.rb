@@ -1,5 +1,7 @@
 class OperationView < View
 
+  attr_accessor :input_views
+
   def initialize input_views:
     @input_views = input_views
   end

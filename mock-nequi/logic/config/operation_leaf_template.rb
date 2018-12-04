@@ -9,12 +9,12 @@ class OperationLeaf
   end
 
   def build_input_views
-    @views = Array.new
+    @input_views = Array.new
   end
 
   def setup_action
     @action_proc = Proc.new do |inputed_data, session|
-      
+
     end
   end
 

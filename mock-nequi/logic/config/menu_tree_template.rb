@@ -12,6 +12,8 @@ class MenuTree
   end
 
   def build_menu_node
+    menu_builder = MenuNodeBuilder.new
+    @menu_node = menu_builder.build
   end
 
   def setup_back_nodes
@@ -25,4 +27,5 @@ class MenuTree
     @menu_node.view.back_option = text
     @menu_node.controller.back_option = node
   end
+  
 end
