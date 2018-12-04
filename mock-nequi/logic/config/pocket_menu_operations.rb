@@ -194,9 +194,9 @@ module PocketsOperations
         user.refresh
         pocket = user.pockets_dataset[name: inputed_data[:name]]
         max = inputed_data[:quantity].to_i
-        transactionReport = TransactionReport.new(element_list: pocket.transaction_movements, limit: max)
+        transactionReport = TransactionsReport.new(element_list: pocket.transaction_movements, limit: max)
         transactionReport.show
-        transferReport = TransferReport.new(element_list: pocket.transfer_movements, limit: max)
+        transferReport = TransfersReport.new(element_list: pocket.transfer_movements, limit: max)
         transferReport.show
       end
     end

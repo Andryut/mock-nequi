@@ -1,4 +1,4 @@
-class TransactionReport < ReportView
+class TransactionsReport < ReportView
 
     def report
         transaction_movements = element_list

@@ -1,4 +1,4 @@
-class TransferReport < ReportView
+class TransfersReport < ReportView
 
     def report
         transfer_movements = element_list
@@ -12,7 +12,8 @@ class TransferReport < ReportView
                 receiver = User[transfer.receiver]
                 puts ' Date: ' + transfer_movement.date.to_s
                 puts ' Amount: $%0.2f' % transfer_movement.amount_money
-                puts ' Receiver: ' + receiver.email
+                puts ' Receiver: ' + receiver.name
+                puts ' Receiver email: ' + receiver.email
                 puts
                 count += 1
             end
