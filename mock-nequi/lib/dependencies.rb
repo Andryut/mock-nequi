@@ -34,9 +34,10 @@ require_relative '../view/operation_view.rb'
 
 require_relative '../logic/input_validator.rb'
 require_relative '../logic/navigation_node.rb'
-require_relative '../logic/operation_controller.rb'
-require_relative '../logic/menu_controller.rb'
 require_relative '../logic/session.rb'
+
+require_relative '../logic/controller/operation_controller.rb'
+require_relative '../logic/controller/menu_controller.rb'
 
 require_relative '../logic/builders/menu_node_builder.rb'
 require_relative '../logic/builders/input_view_builder.rb'
