@@ -1,8 +1,8 @@
 class InputView < View
 
-  def initialize petition:, regexp:, key:
+  def initialize petition:, validation_method_name:, key:
     @petition = petition
-    @regexp = regexp
+    @validation_method_name = validation_method_name
     @key = key
   end
 
@@ -16,7 +16,7 @@ class InputView < View
 
   def get_input
     input = gets.chomp
-    if input =~ @regexp
+    if UIValidator.is_a_valid @validation_method_name, input
       return {@key.to_sym => input}
     else
       self.show

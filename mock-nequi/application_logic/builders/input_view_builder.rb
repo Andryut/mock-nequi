@@ -4,8 +4,8 @@ class InputViewBuilder
     @petition = petition
   end
 
-  def with_validation expression:
-    @regexp = expression
+  def with_validation method_name:
+    @validation_method_name = method_name
   end
 
   def with_hash key:
@@ -13,6 +13,6 @@ class InputViewBuilder
   end
 
   def build
-    return InputView.new petition: @petition, regexp: @regexp, key: @key
+    return InputView.new petition: @petition, validation_method_name: @validation_method_name, key: @key
   end
 end

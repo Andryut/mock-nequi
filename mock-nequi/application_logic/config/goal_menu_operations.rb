@@ -33,17 +33,17 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the goal name"
-      goal_name_view_builder.with_validation expression: //
+      goal_name_view_builder.with_validation method_name: :goal_name
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
       amount_view_builder.with_petition "Enter the target money amount"
-      amount_view_builder.with_validation expression: //
+      amount_view_builder.with_validation method_name: :number
       amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
       date_view_builder = InputViewBuilder.new
       date_view_builder.with_petition "Enter the maximum number of days to complete the goal"
-      date_view_builder.with_validation expression: //
+      date_view_builder.with_validation method_name: :day
       date_view_builder.with_hash key: :days
       @date_view = date_view_builder.build
     end
@@ -77,7 +77,7 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the name of the goal that you wish to close"
-      goal_name_view_builder.with_validation expression: //
+      goal_name_view_builder.with_validation method_name: :goal_name
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
     end
@@ -115,12 +115,12 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the name of the goal to make a deposit"
-      goal_name_view_builder.with_validation expression: //
+      goal_name_view_builder.with_validation method_name: :goal_name
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
       amount_view_builder.with_petition "Enter the amount to be deposited"
-      amount_view_builder.with_validation expression: //
+      amount_view_builder.with_validation method_name: :number
       amount_view_builder.with_hash key: :amount
       @amount_view = amount_view_builder.build
     end

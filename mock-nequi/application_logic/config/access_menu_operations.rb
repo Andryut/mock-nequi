@@ -7,19 +7,19 @@ module AccessOperations
     def build_input_views
       email_view_builder = InputViewBuilder.new
       email_view_builder.with_petition "Enter your email"
-      email_view_builder.with_validation expression: /@/
+      email_view_builder.with_validation method_name: :email
       email_view_builder.with_hash key: :email
       @email_view = email_view_builder.build
       password_view_builder = InputViewBuilder.new
       password_view_builder.with_petition "Enter your password"
-      password_view_builder.with_validation expression: //
+      password_view_builder.with_validation method_name: :password
       password_view_builder.with_hash key: :password
       @password_view = password_view_builder.build
     end
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes, session|
-        begin 
+        begin
           session.login(email: inputed_data[:email], password: inputed_data[:password])
           puts 'Welcome '+ session.current_user.name
           navigation_nodes[:main_menu].play
@@ -46,24 +46,24 @@ module AccessOperations
     def build_input_views
       name_view_builder = InputViewBuilder.new
       name_view_builder.with_petition "Enter your name"
-      name_view_builder.with_validation expression: //
+      name_view_builder.with_validation method_name: :name
       name_view_builder.with_hash key: :name
       @name_view = name_view_builder.build
       email_view_builder = InputViewBuilder.new
       email_view_builder.with_petition "Enter your email"
-      email_view_builder.with_validation expression: //
+      email_view_builder.with_validation method_name: :email
       email_view_builder.with_hash key: :email
       @email_view = email_view_builder.build
       password_view_builder = InputViewBuilder.new
       password_view_builder.with_petition "Enter your password"
-      password_view_builder.with_validation expression: //
+      password_view_builder.with_validation method_name: :password
       password_view_builder.with_hash key: :password
       @password_view = password_view_builder.build
     end
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, navigation_nodes, session|
-        begin 
+        begin
           session.create_and_login(name: inputed_data[:name], email: inputed_data[:email], password: inputed_data[:password])
           puts 'Congratulations, you have successfully registered'
           puts 'Welcome '+ session.current_user

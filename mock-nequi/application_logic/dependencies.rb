@@ -1,3 +1,4 @@
+Gem.win_platform? ? (system "cls") : (system "clear") # Clear screen
 
 puts 'Conecting to database...'
 require_relative '../connection/connection.rb'
@@ -19,6 +20,8 @@ require_relative '../model/goal.rb'
 
 puts 'Importing dependencies...'
 require_relative 'view.rb'
+require_relative 'error_view.rb'
+require_relative 'ui_validation.rb'
 require_relative 'menu_view.rb'
 require_relative 'navigation_node.rb'
 require_relative 'operation_controller.rb'
