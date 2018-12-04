@@ -12,9 +12,10 @@ class TransferReport < ReportView
         transfer_movements.each do |transfer_movement|
             break unless count < limit
             transfer = transfer_movement.transfer
-            puts ' Date: ' + transaction_movement.date.to_s
-            puts ' Amount: $%0.2f' % transaction_movement.amount_money
-            puts ' Receiver ' + transfer.receiver.email
+            receiver = transfer.eceiver
+            puts ' Date: ' + transfer_movement.date.to_s
+            puts ' Amount: $%0.2f' % transfer_movement.amount_money
+            puts ' Receiver: ' + receiver.email
             puts
             count += 1
         end
