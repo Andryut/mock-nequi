@@ -11,7 +11,7 @@ class ReportView < View
     clean_screen
     report_transactions
     report_transfers
-    puts "\nPress enter to continue"
+    puts "Press enter to continue"
     gets
   end
 
