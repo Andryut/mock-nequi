@@ -12,13 +12,6 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class CheckTotalOP < OperationLeaf
@@ -32,10 +25,8 @@ module MainOperations
     end
 
     def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
+      operation_node_builder = OperationNodeBuilder.new(action_proc: @action_proc, 
+        navigation_nodes: navigation_nodes, session: session)
       @operation_node = operation_node_builder.build
     end
   end
@@ -43,7 +34,7 @@ module MainOperations
   class DepositOP < OperationLeaf
 
     def build_input_views
-      @input_views = []
+      @input_views = Array.new
 
       petition = "Enter the amount to be deposited"
       amount_view_builder = InputViewBuilder.new petition: petition , field_type: :number, key: :amount
@@ -62,20 +53,12 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @amount_view
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class WithdrawalOP < OperationLeaf
 
     def build_input_views
-      @input_views = []
+      @input_views = Array.new
 
       petition = "Enter the amount to be withdrawn"
       amount_view_builder = InputViewBuilder.new petition: petition, field_type: :number, key: :amount
@@ -94,20 +77,12 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @amount_view
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class SendOP < OperationLeaf
 
     def build_input_views
-      @input_views = []
+      @input_views = Array.new
 
       petition = "Enter the email of the receiver email"
       email_view_builder = InputViewBuilder.new petition: petition, field_type: :email, key: :email
@@ -123,28 +98,19 @@ module MainOperations
         begin
           user = session.current_user
           account = user.general_account
-          Movement.createTransfer transmitter_account:account, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
+          Movement.create_transfer transmitter_account:account, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
         rescue => exception
           Error.new(message: exception.message) { |error| error.show }
         end
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @email_view
-      operation_node_builder.add_input view: @amount_view
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class CheckTransactionsOP < OperationLeaf
 
     def build_input_views
-      @input_views = []
+      @input_views = Array.new
 
       petition = "Enter the maximum number of transactions you wish see"
       quantity_view_builder = InputViewBuilder.new petition: petition, field_type: :number, key: :quantity
@@ -163,13 +129,6 @@ module MainOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new
-      operation_node_builder.with_action proc: @action_proc
-      operation_node_builder.add_model nodes: navigation_nodes
-      operation_node_builder.add_session session: session
-      operation_node_builder.add_input view: @quantity_view
-      @operation_node = operation_node_builder.build
-    end
   end
+  
 end

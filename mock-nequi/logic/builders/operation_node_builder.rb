@@ -10,7 +10,7 @@ class OperationNodeBuilder
     @dynamic = false
   end
 
-  def initialize input_views: Array.new, action_proc:, navigation_nodes:, session:, dynamic: false, back_node: nil
+  def initialize input_views:, action_proc:, navigation_nodes:, session:, dynamic: false, back_node: nil
     @input_views = input_views
     @action_proc = action_proc
     @navigation_nodes = navigation_nodes

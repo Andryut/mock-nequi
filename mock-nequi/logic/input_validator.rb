@@ -1,8 +1,8 @@
 class InputValidator
 
-  def self.is_valid field_type:, value:
+  def self.is_valid? field_type:, value:
     begin
-      return route type_of_validation, value
+      return self.route field_type, value
     rescue
       raise 'Invalid type of validation'
     end
@@ -29,12 +29,14 @@ class InputValidator
     end
     return true
   end
+
   def self.text value
     unless value.strip.length > 0
       Error.new(message: "#{value} is not a valid text, introduce a valid text") { |error| error.show }
     end
     return true
   end
+  
   def self.password value
     error_cause = ""
     if (/[a-z]/ =~ value).nil?

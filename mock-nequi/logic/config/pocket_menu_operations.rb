@@ -119,11 +119,6 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class WithdrawalOP < OperationLeaf
@@ -156,11 +151,6 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class SendOP < OperationLeaf
@@ -187,7 +177,7 @@ module PocketsOperations
           pockets_dataset = session.current_user.pockets_dataset
           pocket = pockets_dataset[name: inputed_data[:name]]
           unless pocket.nil?
-            Movement.createTransfer transmitter_account:pocket, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
+            Movement.create_transfer transmitter_account:pocket, amount_money: inputed_data[:amount].to_f, receiver_email: inputed_data[:email]
           else
             Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end
@@ -196,12 +186,7 @@ module PocketsOperations
         end
       end
     end
-
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
+    
   end
 
   class CheckTransactionsOP < OperationLeaf
@@ -231,10 +216,6 @@ module PocketsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
   end
+
 end

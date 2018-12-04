@@ -21,7 +21,7 @@ class Movement < Sequel::Model
   def self.create_transfer transmitter_account:, amount_money:, receiver_email:
     reciever = User[email:receiver_email]
 
-    unless reciever.nil?
+    unless (reciever.nil? or reciever.email == transmitter_account.email)
       movement = Movement.create(transmitter_account:transmitter_account.id, type: self.transfer_type, amount_money: amount_money)
       Transfer.create(associated_movement:movement.id, reciever: reciever.id)
       transmitter_account.withdrawn_money(amount:amount_money, transfer: true)

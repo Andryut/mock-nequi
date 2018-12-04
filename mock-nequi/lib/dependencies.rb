@@ -1,13 +1,13 @@
 Gem.win_platform? ? (system "cls") : (system "clear") # Clear screen
 
-puts 'Loading gems'
+puts 'Loading gems..'
 require 'sequel'
 require 'tiny_tds'
 
-puts 'Conecting to database...'
+puts 'Conecting to database..'
 require_relative '../connection/connection.rb'
 
-puts 'Loading data model...'
+puts 'Loading data model..'
 require_relative '../model/user.rb'
 require_relative '../model/account.rb'
 require_relative '../model/general_account.rb'
@@ -22,19 +22,19 @@ require_relative '../model/mattress_coffer.rb'
 require_relative '../model/goal_coffer.rb'
 require_relative '../model/goal.rb'
 
-puts 'Loading dependencies...'
+puts 'Loading dependencies..'
 require_relative '../view/view.rb'
 require_relative '../view/report_view.rb'
 require_relative '../view/transaction_report.rb'
 require_relative '../view/transfer_report.rb'
 require_relative '../view/error_view.rb'
 require_relative '../view/menu_view.rb'
+require_relative '../view/input_view.rb'
+require_relative '../view/operation_view.rb'
 
 require_relative '../logic/input_validator.rb'
 require_relative '../logic/navigation_node.rb'
 require_relative '../logic/operation_controller.rb'
-require_relative '../logic/input_view.rb'
-require_relative '../logic/operation_view.rb'
 require_relative '../logic/menu_controller.rb'
 require_relative '../logic/session.rb'
 

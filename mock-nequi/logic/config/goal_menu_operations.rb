@@ -24,12 +24,6 @@ module GoalsOperations
         gets
       end
     end
-
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class CreateOP < OperationLeaf
@@ -61,11 +55,6 @@ module GoalsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class CloseOP < OperationLeaf
@@ -95,11 +84,6 @@ module GoalsOperations
       end
     end
 
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
   end
 
   class DepositOP < OperationLeaf
@@ -131,11 +115,7 @@ module GoalsOperations
         end
       end
     end
-
-    def build_operation_node navigation_nodes:, session:
-      operation_node_builder = OperationNodeBuilder.new(input_views: @input_views, action_proc: @action_proc, 
-        navigation_nodes: navigation_nodes, session: session)
-      @operation_node = operation_node_builder.build
-    end
+    
   end
+
 end

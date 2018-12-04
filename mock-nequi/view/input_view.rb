@@ -16,7 +16,7 @@ class InputView < View
 
   def get_input
     input = gets.chomp
-    if InputValidator.is_a_valid field_type: @field_type, value: input
+    if InputValidator.is_valid? field_type: @field_type, value: input
       return {@key.to_sym => input}
     else
       self.show
