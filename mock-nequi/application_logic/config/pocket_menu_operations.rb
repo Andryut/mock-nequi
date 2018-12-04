@@ -7,12 +7,16 @@ module PocketsOperations
         user = session.current_user
         user.refresh
         pocket_accounts = user.pockets
+        puts 'This is your pocket list'
+        puts
         pocket_accounts.each do |pocket_account|
           puts 'Name: ' + pocket_account.name
           puts 'Balance: $%0.2f' % pocket_account.amount_money
-          puts '\nPress enter to continue'
-          gets
+          puts
         end
+        puts 'there are no pockets to show' if pocket_accounts.length == 0
+        puts 'Press enter to continue'
+        gets
       end
     end
 
@@ -30,7 +34,7 @@ module PocketsOperations
     def build_input_views
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
     end
@@ -61,7 +65,7 @@ module PocketsOperations
     def build_input_views
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the name of the pocket that you wish to delete"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
     end
@@ -98,7 +102,7 @@ module PocketsOperations
     def build_input_views
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
@@ -127,7 +131,7 @@ module PocketsOperations
     def build_operation_node navigation_nodes:, session:
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
       operation_node_builder = OperationNodeBuilder.new
@@ -145,7 +149,7 @@ module PocketsOperations
     def build_input_views
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
@@ -187,7 +191,7 @@ module PocketsOperations
     def build_input_views
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
       email_view_builder = InputViewBuilder.new
@@ -235,7 +239,7 @@ module PocketsOperations
     def build_input_views
       pocket_name_view_builder = InputViewBuilder.new
       pocket_name_view_builder.with_petition "Enter the pocket name"
-      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_validation method_name: :text
       pocket_name_view_builder.with_hash key: :name
       @pocket_name_view = pocket_name_view_builder.build
       quantity_view_builder = InputViewBuilder.new
@@ -251,9 +255,10 @@ module PocketsOperations
         user.refresh
         pocket = user.pockets_dataset[name: inputed_data[:name]]
         max = inputed_data[:quantity].to_i
-        ReportView.new(transaction_movements: pocket.transaction_movements, transfer_movements: pocket.transfer_movements, limit: max) do |report|
-          report.show
-        end
+        transactionReport = TransactionReport.new(element_list: pocket.transaction_movements, limit: max)
+        transactionReport.show
+        transferReport = TransferReport.new(element_list: pocket.transfer_movements, limit: max)
+        transferReport.show
       end
     end
 

@@ -157,9 +157,10 @@ module MainOperations
         account = session.current_user.general_account
         account.refresh
         max = inputed_data[:quantity].to_i
-        ReportView.new(transaction_movements: account.transaction_movements, transfer_movements: account.transfer_movements, limit: max) do |report|
-          report.show
-        end
+        transactionReport = TransactionReport.new(element_list: account.transaction_movements, limit: max)
+        transactionReport.show
+        transferReport = TransferReport.new(element_list: account.transfer_movements, limit: max)
+        transferReport.show
       end
     end
 

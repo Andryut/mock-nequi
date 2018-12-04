@@ -7,6 +7,8 @@ module GoalsOperations
         user = session.current_user
         user.refresh
         goal_coffers = user.goals
+        puts 'This is your goal list'
+        puts
         goal_coffers.each do |goal_coffer|
           goal = goal_coffers.goal
           puts 'Name: ' + goal_coffer.name
@@ -15,9 +17,11 @@ module GoalsOperations
           puts 'Remaining money: $%0.2f' % (goal.total_amount.to_f - goal_coffer.amount_money.to_f)
           puts 'Status: ' + goal_coffer.status
           puts 'Deadline: ' + goal.deadline.to_s
-          puts '\nPress enter to continue'
-          gets
+          puts
         end
+        puts 'there are no goals to show' if goal_coffers.length == 0
+        puts 'Press enter to continue'
+        gets
       end
     end
 
@@ -35,7 +39,7 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the goal name"
-      goal_name_view_builder.with_validation method_name: :goal_name
+      goal_name_view_builder.with_validation method_name: :text
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
       amount_view_builder = InputViewBuilder.new
@@ -78,7 +82,7 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the name of the goal that you wish to close"
-      goal_name_view_builder.with_validation method_name: :goal_name
+      goal_name_view_builder.with_validation method_name: :text
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
     end
@@ -115,7 +119,7 @@ module GoalsOperations
     def build_input_views
       goal_name_view_builder = InputViewBuilder.new
       goal_name_view_builder.with_petition "Enter the name of the goal to make a deposit"
-      goal_name_view_builder.with_validation method_name: :goal_name
+      goal_name_view_builder.with_validation method_name: :text
       goal_name_view_builder.with_hash key: :name
       @goal_name_view = goal_name_view_builder.build
       amount_view_builder = InputViewBuilder.new

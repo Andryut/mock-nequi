@@ -1,54 +1,30 @@
 class ReportView < View
 
-  def initialize transaction_movements:, transfer_movements:, limit:
-    @transaction_movements = transaction_movements
-    @transfer_movements = transfer_movements
+  attr_accessor :element_list, :limit
+
+  def initialize element_list:, limit:
+    @element_list = element_list
     @limit = limit
-    yield(self) if block_given?
   end
 
   def show
     clean_screen
-    report_transactions
-    report_transfers
+    report
     puts "Press enter to continue"
     gets
   end
 
-  def report_transactions
-    if @transaction_movements.length > 0 and @limit > 0
-      puts 'TRANSACTIONS:'
+  def report
+    if @element_list.length > 0 and limit > 0
+        puts 'ELEMETS:'
     else
-      puts 'There are no transactions to show'
+        puts 'There are no elemets to show'
     end
-    puts ''
     count = 0
-    @transaction_movements.each do |transaction_movement|
+    @element_list.each do |element|
       break unless count < @limit
-      transaction = transaction_movement.transaction
-      puts ' Date: ' + transaction_movement.date.to_s
-      puts ' Amount: $%0.2f' % transaction_movement.amount_money
-      puts ' Transaction type: ' + transaction.type
-      puts ''
-      count += 1
-    end
-  end
-
-  def report_transfers
-    if @transfer_movements.length > 0 and @limit > 0
-      puts 'TRANSFERS:'
-    else
-      puts 'There are no transfers to show'
-    end
-    puts ''
-    count = 0
-    @transfer_movements.each do |transfer_movement|
-      break unless count < @limit
-      transfer = transfer_movement.transfer
-      puts ' Date: ' + transaction_movement.date.to_s
-      puts ' Amount: $%0.2f' % transaction_movement.amount_money
-      puts ' Receiver ' + transfer.receiver.email
-      puts ''
+      puts element_list
+      puts
       count += 1
     end
   end

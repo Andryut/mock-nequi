@@ -1,14 +1,9 @@
 class UIValidator
 
   def self.is_a_valid type_of_validation, value
-    if (type_of_validation == :email or
-        type_of_validation == :number or
-        type_of_validation == :password or
-        type_of_validation == :name or
-        type_of_validation == :day)
-    then
+    begin
       return route type_of_validation, value
-    else
+    rescue
       raise 'Invalid type of validation'
     end
   end
@@ -28,15 +23,18 @@ class UIValidator
   end
 
   def self.number value
-    value.each_char do |chr|
-      unless chr.to_i.to_s == chr
-        Error.new(message: "#{value} is not a valid number, introduce a valid number") { |error| error.show }
-        return false
-      end
+    unless /\A-?(?:\d+(?:\.\d*)?|\.\d+)\z/ =~  value
+      Error.new(message: "#{value} is not a valid number, introduce a valid number") { |error| error.show }
+      return false
     end
     return true
   end
-
+  def self.text value
+    unless value.strip.length > 0
+      Error.new(message: "#{value} is not a valid text, introduce a valid text") { |error| error.show }
+    end
+    return true
+  end
   def self.password value
     error_cause = ""
     if (/[a-z]/ =~ value).nil?
