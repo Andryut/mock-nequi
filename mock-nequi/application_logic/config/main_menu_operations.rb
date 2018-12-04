@@ -5,6 +5,7 @@ module MainOperations
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
         account = session.current_user.general_account
+        account.refresh
         puts '$%0.2f' % account.amount_money
         puts 'Press enter to continue'
         gets
@@ -153,10 +154,10 @@ module MainOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
-        user = session.current_user
-        account = user.general_account
+        account = session.current_user.general_account
+        account.refresh
         max = inputed_data[:quantity].to_i
-        ReportView.new transaction_movements: account.transaction_movements, transfer_movements: account.transfer_movements, limit: max do |report|
+        ReportView.new(transaction_movements: account.transaction_movements, transfer_movements: account.transfer_movements, limit: max) do |report|
           report.show
         end
       end

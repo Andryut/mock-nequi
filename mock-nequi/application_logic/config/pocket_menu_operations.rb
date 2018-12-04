@@ -5,6 +5,7 @@ module PocketsOperations
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
         user = session.current_user
+        user.refresh
         pocket_accounts = user.pockets
         pocket_accounts.each do |pocket_account|
           puts 'Name: ' + pocket_account.name
@@ -232,6 +233,11 @@ module PocketsOperations
   class CheckTransactionsOP < OperationLeaf
 
     def build_input_views
+      pocket_name_view_builder = InputViewBuilder.new
+      pocket_name_view_builder.with_petition "Enter the pocket name"
+      pocket_name_view_builder.with_validation method_name: :pocket_name
+      pocket_name_view_builder.with_hash key: :name
+      @pocket_name_view = pocket_name_view_builder.build
       quantity_view_builder = InputViewBuilder.new
       quantity_view_builder.with_petition "Enter the maximum number of transactions you wish see"
       quantity_view_builder.with_validation method_name: :number
@@ -242,15 +248,10 @@ module PocketsOperations
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
         user = session.current_user
-        accounts = user.pockets
+        user.refresh
+        pocket = user.pockets_dataset[name: inputed_data[:name]]
         max = inputed_data[:quantity].to_i
-        transaction_movements = Array.new
-        transfer_movements = Array.new
-        accounts.each do |account|
-          transaction_movements.concat(account.transaction_movements)
-          transfer_movements.concat(account.transfer_movements)
-        end
-        ReportView.new transaction_movements: transaction_movements, transfer_movements: transfer_movements, limit: max do |report|
+        ReportView.new(transaction_movements: pocket.transaction_movements, transfer_movements: pocket.transfer_movements, limit: max) do |report|
           report.show
         end
       end

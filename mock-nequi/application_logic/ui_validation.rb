@@ -9,7 +9,7 @@ class UIValidator
     then
       return route type_of_validation, value
     else
-      return true
+      raise 'Invalid type of validation'
     end
   end
 

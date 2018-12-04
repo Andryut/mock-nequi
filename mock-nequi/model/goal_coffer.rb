@@ -10,8 +10,6 @@ class GoalCoffer < Sequel::Model(DB[:coffers].where(type: Coffer::goal_type).whe
 
             coffer = Coffer[self.id]
             coffer.update(amount_money: coffer.amount_money + amount)
-
-            self.owner.refresh
         else
             raise 'The amount to be deposit must be positive'
         end
@@ -22,8 +20,6 @@ class GoalCoffer < Sequel::Model(DB[:coffers].where(type: Coffer::goal_type).whe
 
         Coffer[self.id].update(amount_money: 0, active: false)
         account.deposit_money(ammount: self.amount_money, transfer: true)
-
-        self.owner.refresh
     end
 
     def status

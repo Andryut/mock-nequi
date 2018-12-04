@@ -5,6 +5,7 @@ module GoalsOperations
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
         user = session.current_user
+        user.refresh
         goal_coffers = user.goals
         goal_coffers.each do |goal_coffer|
           goal = goal_coffers.goal

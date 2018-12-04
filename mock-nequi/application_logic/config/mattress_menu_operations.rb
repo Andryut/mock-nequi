@@ -5,6 +5,7 @@ module MattressOperations
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
         mattress = session.current_user.mattress
+        mattress.refresh
         puts '$%0.2f' % mattress.amount_money
         puts 'Press enter to continue'
         gets
