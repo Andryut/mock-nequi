@@ -1,13 +1,14 @@
-class ErrorView < View
+class Error < View
 
   def initialize message:
     @message = message
+    yield(self) if block_given?
   end
 
   def show
     clean_screen
     puts "#{@message}\n"
-    puts 'Press any key to continue'
+    puts 'Press enter to continue'
     gets
   end
 end

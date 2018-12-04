@@ -7,6 +7,7 @@ class PocketMenu < MenuTree
     @deposit_op = PocketsOperations::DepositOP.new navigation_nodes: navigation_nodes, session: session
     @withdrawals_op = PocketsOperations::WithdrawalOP.new navigation_nodes: navigation_nodes, session: session
     @send_op = PocketsOperations::SendOP.new navigation_nodes: navigation_nodes, session: session
+    @check_transactions_op = PocketsOperations::CheckTransactionsOP.new navigation_nodes: navigation_nodes, session: session
   end
 
   def build_menu_node
@@ -17,6 +18,7 @@ class PocketMenu < MenuTree
     menu_builder.add_option text: "Deposit money to a pocket", node: @deposit_op.operation_node
     menu_builder.add_option text: "Withdrawal money from a pocket", node: @withdrawals_op.operation_node
     menu_builder.add_option text: "Send money to a friend from a pocket", node: @send_op.operation_node
+    menu_builder.add_option text: "Check the last n'th transactions", node: @check_transactions_op.operation_node
     @menu_node = menu_builder.build
   end
 
@@ -27,5 +29,6 @@ class PocketMenu < MenuTree
     @deposit_op.setup_back node: @menu_node
     @withdrawals_op.setup_back node: @menu_node
     @send_op.setup_back node: @menu_node
+    @check_transactions_op.setup_back node: @menu_node
   end
 end
