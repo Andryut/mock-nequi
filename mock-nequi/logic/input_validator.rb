@@ -36,7 +36,7 @@ class InputValidator
     end
     return true
   end
-  
+
   def self.password value
     error_cause = ""
     if (/[a-z]/ =~ value).nil?
@@ -70,4 +70,5 @@ class InputValidator
     end
     return true
   end
+  
 end

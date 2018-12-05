@@ -36,4 +36,5 @@ class MenuView < View
       end
     end
   end
+  
 end

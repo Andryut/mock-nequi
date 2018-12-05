@@ -1,5 +1,3 @@
-require 'digest'
-
 class User < Sequel::Model
 
     one_to_one :general_account, key: :owner, read_only: true, reciprocal: :owner

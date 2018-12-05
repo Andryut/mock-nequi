@@ -11,4 +11,5 @@ class NavigationNode
     input = view.show
     controller.execute input: input
   end
+  
 end

@@ -17,4 +17,5 @@ class InputViewBuilder
   def build
     return InputView.new petition: @petition, field_type: @field_type, key: @key
   end
+  
 end

@@ -19,4 +19,5 @@ class MattressMenu < MenuTree
     @deposit_op.setup_back node: @menu_node
     @withdrawals_op.setup_back node: @menu_node
   end
+  
 end

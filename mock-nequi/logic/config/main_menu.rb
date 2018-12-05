@@ -37,4 +37,5 @@ class MainMenu < MenuTree
     @pocket_menu.setup_menu_back text: "Back", node: @menu_node
     @goal_menu.setup_menu_back text: "Back", node: @menu_node
   end
+  
 end

@@ -19,4 +19,5 @@ class AccessMenu < MenuTree
     @sign_up_op.setup_back node: @menu_node
     @main_menu.setup_menu_back text: "Sign out", node: nil
   end
+  
 end

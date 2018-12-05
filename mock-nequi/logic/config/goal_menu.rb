@@ -22,4 +22,5 @@ class GoalMenu < MenuTree
     @close_op.setup_back node: @menu_node
     @deposit_op.setup_back node: @menu_node
   end
+  
 end

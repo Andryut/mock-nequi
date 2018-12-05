@@ -24,4 +24,5 @@ class MenuNodeBuilder
     controller.back_option = @back_option[:node]
     return NavigationNode.new view: view, controller: controller
   end
+  
 end
