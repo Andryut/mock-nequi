@@ -7,9 +7,9 @@ module PocketsOperations
         user = session.current_user
         user.refresh
         pocket_accounts = user.pockets
-        
-        goalsReport = GoalsReport.new(element_list: pocket_accounts, limit: pocket_accounts.length)
-        goalsReport.show
+
+        pocketsReport = PocketsReport.new(element_list: pocket_accounts, limit: pocket_accounts.length)
+        pocketsReport.show
       end
     end
 

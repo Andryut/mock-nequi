@@ -94,7 +94,7 @@ module GoalsOperations
           goals_dataset = session.current_user.goals_dataset
           goal = goals_dataset[name: inputed_data[:name]]
           unless goal.nil?
-            goal.deposit_money(amount: inputed_data[:amount])
+            goal.deposit_money(amount: inputed_data[:amount].to_f)
           else
             Error.new(message: 'A goal with the entered name was not found') { |error| error.show }
           end

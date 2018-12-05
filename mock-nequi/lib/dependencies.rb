@@ -33,6 +33,8 @@ require_relative '../view/report/report_view.rb'
 require_relative '../view/report/transactions_report.rb'
 require_relative '../view/report/transfers_report.rb'
 require_relative '../view/report/receptions_report.rb'
+require_relative '../view/report/goals_report.rb'
+require_relative '../view/report/pockets_report.rb'
 
 require_relative '../logic/input_validator.rb'
 require_relative '../logic/navigation_node.rb'

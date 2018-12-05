@@ -1,6 +1,6 @@
 class ReportView < View
 
-  attr_accessor :element_list, :limit
+  attr_reader :element_list, :limit
 
   def initialize element_list:, limit:
     @element_list = element_list

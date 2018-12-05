@@ -11,7 +11,7 @@ module MattressOperations
         gets
       end
     end
-    
+
   end
 
   class DepositOP < OperationLeaf
@@ -29,7 +29,7 @@ module MattressOperations
         begin
           user = session.current_user
           mattress = user.mattress
-          mattress.deposit_money(amoutn: inputed_data[:amount].to_f)
+          mattress.deposit_money(amount: inputed_data[:amount].to_f)
         rescue => exception
           Error.new(message: exception.message) { |error| error.show }
         end
