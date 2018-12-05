@@ -21,8 +21,6 @@ class Coffer < Sequel::Model
                 deadline = Date.new(current_date.year, current_date.month, current_date.day) + duration_in_days
                 
                 Goal.create(coffer: coffer.id, total_amount: total_amount, deadline: deadline)
-            rescue
-                raise 'There is already a goal with the same name.'
             end
         else
             raise 'The total amount must be positive.' unless total_amount > 0

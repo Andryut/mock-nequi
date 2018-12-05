@@ -7,16 +7,9 @@ module PocketsOperations
         user = session.current_user
         user.refresh
         pocket_accounts = user.pockets
-        puts 'This is your pocket list'
-        puts
-        pocket_accounts.each do |pocket_account|
-          puts 'Name: ' + pocket_account.name
-          puts 'Balance: $%0.2f' % pocket_account.amount_money
-          puts
-        end
-        puts 'there are no pockets to show' if pocket_accounts.length == 0
-        puts 'Press enter to continue'
-        gets
+
+        pocketsReport = PocketsReport.new(element_list: pocket_accounts, limit: pocket_accounts.length)
+        pocketsReport.show
       end
     end
 
@@ -194,9 +187,9 @@ module PocketsOperations
         user.refresh
         pocket = user.pockets_dataset[name: inputed_data[:name]]
         max = inputed_data[:quantity].to_i
-        transactionReport = TransactionReport.new(element_list: pocket.transaction_movements, limit: max)
+        transactionReport = TransactionsReport.new(element_list: pocket.transaction_movements, limit: max)
         transactionReport.show
-        transferReport = TransferReport.new(element_list: pocket.transfer_movements, limit: max)
+        transferReport = TransfersReport.new(element_list: pocket.transfer_movements, limit: max)
         transferReport.show
       end
     end

@@ -23,7 +23,7 @@ module MainOperations
         gets
       end
     end
-    
+
   end
 
   class DepositOP < OperationLeaf
@@ -114,13 +114,16 @@ module MainOperations
 
     def setup_action
       @action_proc = Proc.new do |inputed_data, session|
-        account = session.current_user.general_account
-        account.refresh
+        user = session.current_user
+        user.refresh
+        account = user.general_account
         max = inputed_data[:quantity].to_i
-        transactionReport = TransactionReport.new(element_list: account.transaction_movements, limit: max)
-        transactionReport.show
-        transferReport = TransferReport.new(element_list: account.transfer_movements, limit: max)
-        transferReport.show
+        transactionsReport = TransactionsReport.new(element_list: account.transaction_movements, limit: max)
+        transactionsReport.show
+        transfersReport = TransfersReport.new(element_list: account.transfer_movements, limit: max)
+        transfersReport.show
+        receptionsReport = ReceptionsReport.new(element_list: user.receptions, limit: max)
+        receptionsReport.show
       end
     end
 

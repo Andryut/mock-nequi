@@ -16,7 +16,7 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
     end
   end
 
-  def remove_money amount:, transfer: false
+  def withdrawn_money amount:, transfer: false
     if amount > 0
       account = Account[self.id]
       amount_money = account.amount_money
@@ -37,7 +37,7 @@ class PocketAccount < Sequel::Model(DB[:accounts].where(type: Account::pocket_ty
     account = self.owner.general_account
 
     Account[self.id].update(amount_money: 0, active: false)
-    account.deposit_money(ammount: self.amount_money, transfer: true)
+    account.deposit_money(amount: self.amount_money, transfer: true)
   end
   
 end 
