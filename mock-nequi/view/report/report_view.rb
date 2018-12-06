@@ -28,4 +28,5 @@ class ReportView < View
         puts 'There are no elemets to show'
     end
   end
+  
 end

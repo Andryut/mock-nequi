@@ -22,4 +22,5 @@ class InputView < View
       self.show
     end
   end
+  
 end

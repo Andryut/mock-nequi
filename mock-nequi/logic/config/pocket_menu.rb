@@ -31,4 +31,5 @@ class PocketMenu < MenuTree
     @send_op.setup_back node: @menu_node
     @check_transactions_op.setup_back node: @menu_node
   end
+  
 end

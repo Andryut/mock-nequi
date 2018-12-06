@@ -61,5 +61,4 @@ module MattressOperations
     end
 
   end
-
 end

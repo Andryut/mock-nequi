@@ -40,4 +40,5 @@ class OperationNodeBuilder
     controller.back_node = @back_node
     return NavigationNode.new view: view, controller: controller
   end
+  
 end

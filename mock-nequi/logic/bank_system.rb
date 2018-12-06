@@ -19,4 +19,5 @@ class BankSystem
   def configure_model
     @session = Session.new
   end
+  
 end

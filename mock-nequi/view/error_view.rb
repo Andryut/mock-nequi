@@ -11,4 +11,5 @@ class Error < View
     puts 'Press enter to continue'
     gets
   end
+  
 end

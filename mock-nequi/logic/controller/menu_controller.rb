@@ -26,4 +26,5 @@ class MenuController
   def go_forward option:
     @option_nodes[option - 1].play
   end
+  
 end

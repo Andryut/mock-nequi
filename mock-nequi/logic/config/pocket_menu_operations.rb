@@ -195,5 +195,4 @@ module PocketsOperations
     end
 
   end
-
 end

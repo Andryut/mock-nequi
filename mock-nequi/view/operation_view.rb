@@ -14,4 +14,5 @@ class OperationView < View
     end
     return form
   end
+  
 end

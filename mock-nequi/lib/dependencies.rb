@@ -3,6 +3,7 @@ Gem.win_platform? ? (system "cls") : (system "clear") # Clear screen
 puts 'Loading gems..'
 require 'sequel'
 require 'tiny_tds'
+require 'digest'
 
 puts 'Conecting to database..'
 require_relative '../connection/connection.rb'
